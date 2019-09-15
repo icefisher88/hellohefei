@@ -96,6 +96,27 @@
                     <button type="submit" class="btn btn-primary" >提交</button>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">下载类型：</label>
+            <div class="checkbox checkbox-inline">
+                <input type="checkbox"  class="styled" id="checkbox4">
+                <label for="checkbox4">
+                    hello
+                </label>
+            </div>
+            <div class="checkbox checkbox-inline">
+                <input type="checkbox"  class="styled" id="checkbox5">
+                <label for="checkbox5">
+                    hello
+                </label>
+            </div>
+            <div class="checkbox checkbox-inline">
+                <input type="checkbox"  class="styled" id="checkbox6">
+                <label for="checkbox6">
+                    hello
+                </label>
+            </div>
+            </div>
         </fieldset>
     </form>
 

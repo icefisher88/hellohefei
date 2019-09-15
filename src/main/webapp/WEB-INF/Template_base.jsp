@@ -4,7 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/css/bootstrap-theme.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/css/font-awesome.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/css/bootstrap-datetimepicker.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/css/awesome-bootstrap-checkbox.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/css/default-checkbox.css" />
 <script src="${ctx}/js/jquery-3.4.1.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/js/bootstrap-datetimepicker.js" type="text/javascript" charset="utf-8"></script>
