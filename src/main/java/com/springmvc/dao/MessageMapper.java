@@ -1,7 +1,9 @@
 package com.springmvc.dao;
 
 import com.springmvc.entity.Message;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MessageMapper {
     int deleteByPrimaryKey(Integer id);
 
