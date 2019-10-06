@@ -112,7 +112,8 @@
                     originPassword:$('#originPassword').val(),
                 },
                 success:function (result,status,req) {
-                    alert(result);
+                    alert(result.result);
+                    $('form').data('bootstrapValidator').resetForm();
                 },
                 error:function(result,status,reason){
                     alert(reason);
@@ -125,7 +126,7 @@
             alert('表单验证未通过，请检查......');
         }
        //return false;
-        $('form').data('bootstrapValidator').resetForm();
+
 
 
     }
@@ -139,22 +140,22 @@
             var xx=$(object).parent().prev().get(0);
             xx.type="text";
             // var xx=$(object).parent().prev();
-            // var txtValue=xx.val();
-            // var txtid=xx.attr('id');
+            // var txtValue=xx.prop("outerHTML").replace(/password/,"text");
             // var root=xx.parent();
             // xx.remove();
-            // root.prepend('<input class="form-control" type="text" value="'+txtValue+'" id="'+txtid+'" name="'+txtid+'" />');
+            // root.prepend(txtValue);
+            //root.prepend('<input class="form-control" type="text" value="'+txtValue+'" id="'+txtid+'" name="'+txtid+'" />');
         }
         else
         {
             $(object).attr('class',"fa fa-eye-slash");
             var xx=$(object).parent().prev().get(0);
-            xx.type="password";
-            // var xx=$(object).parent().prev();
-            // var txtValue=xx.val();
-            // var txtid=xx.attr('id');
-            // var root=xx.parent();
-            // xx.remove();
+           xx.type="password";
+           //  var xx=$(object).parent().prev();
+           //  var txtValue=xx.prop("outerHTML").replace(/text/,"password");
+           //  var root=xx.parent();
+           //  xx.remove();
+           //  root.prepend(txtValue);
             // root.prepend('<input class="form-control" type="password" value="'+txtValue+'" id="'+txtid+'" name="'+txtid+'" />');
         }
     }
