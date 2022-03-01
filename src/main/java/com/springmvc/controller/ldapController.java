@@ -17,6 +17,7 @@ public class ldapController {
     public @ResponseBody String changeLDAPPassword(@RequestParam("originPassword")String originPassword,@RequestParam("newPassword")String newPassword){
         System.out.println("the originPassword is:"+originPassword);
         System.out.println("the newPassword is:"+newPassword);
+        //it's a test;
         String resultString="{\"result\":\"success\"}";
         return resultString;
     }
