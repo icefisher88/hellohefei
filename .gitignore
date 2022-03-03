@@ -3,7 +3,7 @@
 /.settings/
 /.vscode/
 /bin/
-
+/.idea/encodings.xml
 .classpath
 .project
 .settings

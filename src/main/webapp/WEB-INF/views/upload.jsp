@@ -74,9 +74,24 @@
     <div class="col-sm-12">
         <h3 class="header smaller bolder blue" style="border-bottom-color: #4a759a;"></h3>
     </div>
-    <c:forEach items="${files}" var="file">
-        <div>${file.newname}</div>
+    <table class="col-sm-12">
+        <tr>
+            <td>序号</td>
+            <td>新文件名</td>
+            <td>原文件名</td>
+            <td>上传日期</td>
+            <td>文件大小</td>
+        </tr>
+    <c:forEach items="${files}" var="file" varStatus="status">
+        <tr>
+            <td>status.count</td>
+            <td>${file.newname}</td>
+            <td>${file.originname}</td>
+            <td>${file.uploaddate}</td>
+            <td>${file.size}</td>
+        </tr>
     </c:forEach>
+    </table>
 </div>
 <script type="text/javascript">
     jQuery(function($) {
