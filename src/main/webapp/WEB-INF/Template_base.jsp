@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/bootstrap-datetimepicker.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/css/awesome-bootstrap-checkbox.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/css/default-checkbox.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/css/ace.min.css" />
 <!--[if !IE]> -->
 <script src="${ctx}/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
 <!-- <![endif]-->
@@ -20,6 +21,8 @@
 <script src="${ctx}/js/html5shiv.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/js/respond.min.js" type="text/javascript" charset="utf-8"></script>
 <![endif]-->
+<script src="${ctx}/js/ace.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${ctx}/js/ace-elements.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/js/bootstrapValidator.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/js/bootstrap-datetimepicker.js" type="text/javascript" charset="utf-8"></script>

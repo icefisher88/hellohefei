@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springmvc.dao.UploadfileMapper" >
+  <resultMap id="BaseResultMap" type="com.springmvc.entity.Uploadfile" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="originname" property="originname" jdbcType="VARCHAR" />
+    <result column="newname" property="newname" jdbcType="VARCHAR" />
+    <result column="uploaddate" property="uploaddate" jdbcType="TIMESTAMP" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, originname, newname, uploaddate, size, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from uploadfile
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAllUploadFiles" resultType="com.springmvc.entity.Uploadfile">
+    select * from uploadfile
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from uploadfile
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springmvc.entity.Uploadfile" >
+    insert into uploadfile (id, originname, newname, 
+      uploaddate, size, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{originname,jdbcType=VARCHAR}, #{newname,jdbcType=VARCHAR}, 
+      #{uploaddate,jdbcType=TIMESTAMP}, #{size,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.entity.Uploadfile" >
+    insert into uploadfile
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="originname != null" >
+        originname,
+      </if>
+      <if test="newname != null" >
+        newname,
+      </if>
+      <if test="uploaddate != null" >
+        uploaddate,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="originname != null" >
+        #{originname,jdbcType=VARCHAR},
+      </if>
+      <if test="newname != null" >
+        #{newname,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaddate != null" >
+        #{uploaddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.entity.Uploadfile" >
+    update uploadfile
+    <set >
+      <if test="originname != null" >
+        originname = #{originname,jdbcType=VARCHAR},
+      </if>
+      <if test="newname != null" >
+        newname = #{newname,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaddate != null" >
+        uploaddate = #{uploaddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springmvc.entity.Uploadfile" >
+    update uploadfile
+    set originname = #{originname,jdbcType=VARCHAR},
+      newname = #{newname,jdbcType=VARCHAR},
+      uploaddate = #{uploaddate,jdbcType=TIMESTAMP},
+      size = #{size,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
