@@ -84,7 +84,7 @@
         </tr>
     <c:forEach items="${files}" var="file" varStatus="status">
         <tr>
-            <td>status.count</td>
+            <td>${status.count}</td>
             <td>${file.newname}</td>
             <td>${file.originname}</td>
             <td>${file.uploaddate}</td>
