@@ -1,6 +1,9 @@
 package com.springmvc.controller;
 
+import com.springmvc.dao.UploadfileMapper;
+import com.springmvc.entity.Uploadfile;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +17,24 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class FileController {
+//    @RequestMapping("/upload")
+//    public String goUpload() {
+//        return "upload";
+//    }
+    @Autowired
+    private UploadfileMapper mapper=null;
     @RequestMapping("/upload")
-    public String goUpload() {
-        return "upload";
+    public ModelAndView upload()
+    {
+        ModelAndView modelAndView=new ModelAndView(("upload"));
+        System.out.println("hello,upload");
+        List<Uploadfile> files=mapper.getAllUploadFiles();
+        modelAndView.addObject("files",files);
+        return modelAndView;
     }
     @RequestMapping(value="/file/Upload",method= RequestMethod.POST)
     public ModelAndView upLoadFile(@RequestParam("uploadFile") MultipartFile tmpFile, HttpServletRequest request){

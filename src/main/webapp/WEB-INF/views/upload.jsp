@@ -14,19 +14,82 @@
 <body>
 
 <div class="container">
-    <div >
-        <form class="form-inline" method="post" action="<%=request.getContextPath()%>/file/Upload"  enctype="multipart/form-data">
-            <fieldset>
-                <legend contenteditable="true">上传Excel文件：</legend>
-                <label contenteditable="true">请选择上传文件：</label>&nbsp;<input type="file" name="uploadFile" accept="application/vnd.ms-excel" /> <span
-                    class="help-block" contenteditable="true">下载Excel上传模板....</span>
-                <input class="btn" value="上传" type="submit"/>
-            </fieldset>
+    <h3 class="header smaller bolder blue" style="border-bottom-color: #4a759a;">上传Excel文件：</h3>
+    <div class="col-sm-6" >
+        <form class="form-inline" method="post" action="<%=request.getContextPath()%>/file/Upload"
+              enctype="multipart/form-data">
+                    <div class="form-group col-sm-12">
+                        <label>请选择上传文件：</label>&nbsp;
+                        <h3></h3>
+                            <input type="file" name="uploadFile" id="uploadFile" accept="application/vnd.ms-excel">
+                    </div>
+
+<%--                <span class="help-block" contenteditable="true">下载Excel上传模板....</span>--%>
+<%--                <input class="btn" value="上传" type="submit"/>--%>
+                <div class=" col-sm-12 space-8"></div>
+                <div class="col-sm-12">
+                <button class="btn btn-app btn-purple btn-xs">
+                    <i class="ace-icon fa fa-cloud-upload bigger-200"></i>
+                    上传
+                </button>
+                </div>
         </form>
     </div>
+    <div class="col-sm-6">
+        <div class="widget-box">
+            <div class="widget-header widget-header-flat">
+                <h4 class="widget-title">上传提示</h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ul class="list-unstyled spaced">
+                                <li>
+                                    <i class="ace-icon fa fa-bell-o bigger-110 purple"></i>
+                                   上传文件类型要求为.xls格式;
+                                </li>
 
+                                <li>
+                                    <i class="ace-icon fa fa-times bigger-110 red"></i>
+                                    上传文件大小不得超过2M;
+                                </li>
+                                <li>
+                                    <ul class="list-inline">
+                                    <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                    上传文件需与模板格式一致。
+                                </li>
+                                <a href="#" class="btn btn-link" style="font-size: 12px">
+                                    <i class="ace-icon glyphicon glyphicon-file" ></i>
+                                    下载模板文件...
+                                </a>
+                                    </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.col -->
+    <div class="col-sm-12">
+        <h3 class="header smaller bolder blue" style="border-bottom-color: #4a759a;"></h3>
+    </div>
+    <c:forEach items="${files}" var="file">
+        <div>${file.newname}</div>
+    </c:forEach>
 </div>
-
-
+<script type="text/javascript">
+    jQuery(function($) {
+        $('#uploadFile').ace_file_input({
+            no_file:'未选择文件 ...',
+            btn_choose:'选择',
+            btn_change:'更改',
+            droppable:false,
+            onchange:null,
+            thumbnail:false,//| true | large
+            whitelist:'xls'
+        });
+    });
+</script>
 </body>
 </html>
