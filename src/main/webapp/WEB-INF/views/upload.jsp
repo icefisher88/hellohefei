@@ -79,7 +79,7 @@
             <td>序号</td>
             <td>新文件名</td>
             <td>原文件名</td>
-            <td>上传日期</td>
+            <td>上传时间</td>
             <td>文件大小</td>
         </tr>
     <c:forEach items="${files}" var="file" varStatus="status">
