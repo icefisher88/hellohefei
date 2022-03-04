@@ -8,8 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>文件上传</title>
     <%@ include file="../Template_base.jsp"%>
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.dataTables.css" />
+    <script src="${ctx}/js/jquery.dataTables.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 
@@ -74,27 +76,101 @@
     <div class="col-sm-12">
         <h3 class="header smaller bolder blue" style="border-bottom-color: #4a759a;"></h3>
     </div>
-    <table class="col-sm-12">
-        <tr>
-            <td>序号</td>
-            <td>新文件名</td>
-            <td>原文件名</td>
-            <td>上传时间</td>
-            <td>文件大小</td>
-        </tr>
-    <c:forEach items="${files}" var="file" varStatus="status">
-        <tr>
-            <td>status.count</td>
-            <td>${file.newname}</td>
-            <td>${file.originname}</td>
-            <td>${file.uploaddate}</td>
-            <td>${file.size}</td>
-        </tr>
-    </c:forEach>
-    </table>
+<%--    <table class="col-sm-12">--%>
+<%--        <tr>--%>
+<%--            <td>序号</td>--%>
+<%--            <td>新文件名</td>--%>
+<%--            <td>原文件名</td>--%>
+<%--            <td>上传时间</td>--%>
+<%--            <td>文件大小</td>--%>
+<%--        </tr>--%>
+<%--    <c:forEach items="${files}" var="file" varStatus="status">--%>
+<%--        <tr>--%>
+<%--            <td>status.count</td>--%>
+<%--            <td>${file.newname}</td>--%>
+<%--            <td>${file.originname}</td>--%>
+<%--            <td>${file.uploaddate}</td>--%>
+<%--            <td>${file.size}</td>--%>
+<%--        </tr>--%>
+<%--    </c:forEach>--%>
+<%--    </table>--%>
+<table id="uploadFileList" class="table table-bordered table-condensed">
+    <thead>
+    <tr>
+        <th class="text-center"><input type="checkbox" name="allChecked"/></th>
+        <th>序号</th>
+        <th>原文件名</th>
+        <th>新文件名</th>
+        <th>上传日期</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+</table>
+
 </div>
+
 <script type="text/javascript">
     jQuery(function($) {
+        // alert('ok');
+        if(${result!=null})
+        {
+            alert(${result});
+        }
+        var table=$("#uploadFileList").DataTable({
+
+            "aLengthMenu":[10,20,40,60],
+            "searching":true,
+            "ajax":{
+                "type":"POST",
+                "url":"${ctx}/showFileList"
+
+            },
+            "aoColumns":[
+                {
+                    "mData":"id",
+                    "orderable":false,
+                    "sWidth":"10%", "render": function (data, type, full, meta) {
+                        return data = '<div class="text-center"><input type="checkbox"></input></div>';
+                    }
+                },
+                {
+                    "mData":"id",
+                    "orderable":false,
+                    "sWidth":"10%"
+                },
+                {
+                "mData":"originname",
+                "orderable":false,
+                "sWidth":"20%"
+            },{
+                "mData":"newname",
+                "orderable":false,
+                "sWidth":"20%"
+            },{
+                "mData":"uploaddate",
+                "orderable":false,
+                "sWidth":"20%",
+                "render":function(data,type,full,meta){
+                    if(data!=null&&data!=""){
+                        var date=new Date(data);
+                        return date.toLocaleString();
+                    }else{
+                        return data;
+                    }
+                }
+            }, {
+                    "mData": "id",
+                    "orderable": false, // 禁用排序
+                    "sDefaultContent": '',
+                    "sWidth": "20%",
+                    "render": function (data, type, full, meta) {
+                        return data = '<div class="col-xs-6"><button id="delete_'+data+'" class="btn btn-danger btn-sm" data-id=' + data + '>删 除</button></div><div class="col-xs-6"><button id="browse_'+data+'" class="btn btn-info btn-sm" data-id=' + data + '>详情</button></div>';
+                    }
+                }
+            ]
+
+        });
+
         $('#uploadFile').ace_file_input({
             no_file:'未选择文件 ...',
             btn_choose:'选择',

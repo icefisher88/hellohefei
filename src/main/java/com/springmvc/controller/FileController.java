@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,11 +18,13 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class FileController {
-//    @RequestMapping("/upload")
+    //    @RequestMapping("/upload")
 //    public String goUpload() {
 //        return "upload";
 //    }
@@ -35,6 +38,15 @@ public class FileController {
         List<Uploadfile> files=mapper.getAllUploadFiles();
         modelAndView.addObject("files",files);
         return modelAndView;
+    }
+    @RequestMapping("/showFileList")
+    @ResponseBody
+    public Map<String,Object> showFileList(){
+        List<Uploadfile> files=mapper.getAllUploadFiles();
+        Map<String,Object> map2Json=new HashMap<String,Object>();
+        map2Json.put("aaData",files);
+        System.out.println("hello");
+        return map2Json;
     }
     @RequestMapping(value="/file/Upload",method= RequestMethod.POST)
     public ModelAndView upLoadFile(@RequestParam("uploadFile") MultipartFile tmpFile, HttpServletRequest request){
@@ -62,7 +74,10 @@ public class FileController {
                 e.printStackTrace();
             }
         }
+        System.out.println("now begin redirect....");
         return modelAndView;
+
+//        return "redirect:/upload";
     }
 
     public static String renameFileName(String fileName){
