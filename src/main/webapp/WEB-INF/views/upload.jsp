@@ -113,10 +113,10 @@
 <script type="text/javascript">
     jQuery(function($) {
         // alert('ok');
-        if(${result!=null})
-        {
-            alert('${result}');
-        }
+        //if(${result!=null})
+       // {
+       //     alert('${result}');
+       // }
         var table=$("#uploadFileList").DataTable({
 
             "aLengthMenu":[10,20,40,60],
@@ -149,7 +149,7 @@
                 "sWidth":"20%"
             },{
                 "mData":"uploaddate",
-                "orderable":false,
+                "orderable":true,
                 "sWidth":"20%",
                 "render":function(data,type,full,meta){
                     if(data!=null&&data!=""){
@@ -165,13 +165,43 @@
                     "sDefaultContent": '',
                     "sWidth": "20%",
                     "render": function (data, type, full, meta) {
-                        return data = '<div class="col-xs-6"><button id="delete_'+data+'" class="btn btn-danger btn-sm" data-id=' + data + '>删 除</button></div><div class="col-xs-6"><button id="browse_'+data+'" class="btn btn-info btn-sm" data-id=' + data + '>详情</button></div>';
+                        return data = '<div class="col-xs-6"><button id="deleteRow" class="btn btn-danger btn-sm" data-id=' + data + '>删 除</button></div><div class="col-xs-6"><button id="browseRow" class="btn btn-info btn-sm" data-id=' + data + '>详情</button></div>';
                     }
                 }
             ]
 
         });
+        table.on('click','button#deleteRow',function(){
+            if(confirm('确定要删除这条记录吗？')){
+           var row=table.row($(this).parents('tr'));
+           var data=row.data();
+           $.ajax({
+               type:"get",
+               url:'${ctx}/upload/delRow',
+               data:{rid:data.id,fileName:data.newname},
+               dataType:'json',
+               cache:false,
+               success:function(data){
+                   if(data.result=="success") {
+                       alert('删除成功');
+                       row.remove().draw(false);
+                   }
+                   else{
+                       alert('删除出现错误');
+                   }
+               }
+           });
 
+           // alert(data);
+            }
+        });
+        table.on('click','button#browseRow',function(){
+                var row=table.row($(this).parents('tr'));
+                var data=row.data();
+                alert('这里可以跳出详情窗口');
+               // row.remove().draw(false);
+                // alert(data);
+        });
         $('#uploadFile').ace_file_input({
             no_file:'未选择文件 ...',
             btn_choose:'选择',

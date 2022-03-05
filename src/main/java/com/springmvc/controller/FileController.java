@@ -20,10 +20,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class FileController {
@@ -50,6 +47,32 @@ public class FileController {
         map2Json.put("aaData",files);
         System.out.println("hello");
         return map2Json;
+    }
+
+    @RequestMapping(value="/upload/delRow",method= RequestMethod.GET)
+    @ResponseBody
+    public Map<String, String> delRow(@RequestParam("rid") String rid,HttpServletRequest request) {
+        String fileName=request.getParameter("fileName");
+        String targetDir=request.getSession().getServletContext().getRealPath("uploads");
+        File targetFile=new File(targetDir,fileName);
+        Map<String, String> delResult = new HashMap<String, String>();
+        if(targetFile.exists()) //删除文件
+        {
+            System.out.println("begin del..."+rid+","+fileName);
+            FileUtils.deleteQuietly(targetFile);
+            delResult.put("result", "success");
+        }
+        int delOps=mapper.deleteByPrimaryKey(Integer.parseInt(rid));//删除数据库记录
+        System.out.println("the del tag is:"+delOps);
+
+        if(delOps<1)
+        {
+            delResult.put("result","failure");
+        }
+        else{
+            delResult.put("result", "success");
+        }
+        return delResult;
     }
     @RequestMapping(value="/upload",method= RequestMethod.POST)
     public ModelAndView upLoadFile(@RequestParam("uploadFile") MultipartFile tmpFile, HttpServletRequest request){
