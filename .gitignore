@@ -8,6 +8,8 @@
 .project
 .settings
 .idea
+/src/main/resources/generator.properties
+/src/main/resources/jdbc.properties
  ##filter databfile、sln file##
 *.mdb
 *.ldb

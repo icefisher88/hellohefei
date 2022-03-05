@@ -18,7 +18,8 @@
 <div class="container">
     <h3 class="header smaller bolder blue" style="border-bottom-color: #4a759a;">上传Excel文件：</h3>
     <div class="col-sm-6" >
-        <form class="form-inline" method="post" action="<%=request.getContextPath()%>/file/Upload"
+<%--        <form class="form-inline" method="post" action="<%=request.getContextPath()%>/file/Upload"--%>
+    <form class="form-inline" method="post" action=""
               enctype="multipart/form-data">
                     <div class="form-group col-sm-12">
                         <label>请选择上传文件：</label>&nbsp;
@@ -114,7 +115,7 @@
         // alert('ok');
         if(${result!=null})
         {
-            alert(${result});
+            alert('${result}');
         }
         var table=$("#uploadFileList").DataTable({
 
