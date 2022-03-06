@@ -98,7 +98,7 @@
 <table id="uploadFileList" class="table table-bordered table-condensed">
     <thead>
     <tr>
-        <th class="text-center"><input type="checkbox" name="allChecked"/></th>
+        <th class="text-center"><input type="checkbox" name="allChecked" id="allChecked"/></th>
         <th>序号</th>
         <th>原文件名</th>
         <th>新文件名</th>
@@ -131,7 +131,7 @@
                     "mData":"id",
                     "orderable":false,
                     "sWidth":"10%", "render": function (data, type, full, meta) {
-                        return data = '<div class="text-center"><input type="checkbox"></input></div>';
+                        return data = '<div class="text-center"><input type="checkbox" name="singlecheck"/></div>';
                     }
                 },
                 {
@@ -168,7 +168,26 @@
                         return data = '<div class="col-xs-6"><button id="deleteRow" class="btn btn-danger btn-sm" data-id=' + data + '>删 除</button></div><div class="col-xs-6"><button id="browseRow" class="btn btn-info btn-sm" data-id=' + data + '>详情</button></div>';
                     }
                 }
-            ]
+            ],
+            "fnDrawCallback": function( oSettings ) {
+                // alert( 'DataTables has redrawn the table' );
+                var allSingleCheck=true;
+                $("input[name='singlecheck']").each(function(i){
+                    var tag=$(this).prop("checked");
+                    if(tag!=true){
+                        allSingleCheck=false;
+                        return false;
+                    }
+                });
+                if(allSingleCheck)
+                {
+                    $("#allChecked").prop("checked",true);
+                }
+                else
+                {
+                    $("#allChecked").prop("checked",false);
+                }
+            }
 
         });
         table.on('click','button#deleteRow',function(){
@@ -195,6 +214,28 @@
            // alert(data);
             }
         });
+        // table.on('page.dt',function(){
+        //     alert('change page');
+        // });
+        $('#allChecked').bind("click", function () {
+            if (this.checked) {
+                $(this).prop('checked','checked');
+                $("input[name='singlecheck']").prop('checked',true);
+            }
+            else{
+                $(this).prop('checked',false);
+                $("input[name='singlecheck']").prop('checked',false);
+            }
+        });
+        // $(".dataTables_paginate").on("click", "a", function() {
+        //    // alert("点击了上一页和下一页的按钮");
+        //     var classContent=$(this).attr('class');
+        //     if(classContent.indexOf('disabled')<0&&classContent.indexOf('current')<0)
+        //     {
+        //         alert('page change');
+        //     }
+        // });
+
         table.on('click','button#browseRow',function(){
                 var row=table.row($(this).parents('tr'));
                 var data=row.data();
@@ -202,6 +243,7 @@
                // row.remove().draw(false);
                 // alert(data);
         });
+
         $('#uploadFile').ace_file_input({
             no_file:'未选择文件 ...',
             btn_choose:'选择',
@@ -211,6 +253,7 @@
             thumbnail:false,//| true | large
             whitelist:'xls'
         });
+
     });
 </script>
 </body>
