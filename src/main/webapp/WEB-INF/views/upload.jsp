@@ -264,7 +264,8 @@
 
             // var list=$($('#uploadFileList').DataTable().rows());
             // alert(list);
-            var fileIDList=new Array;
+          //  var fileIDList=new Array;
+            var fileIDList=[];
             for(var i=0;i<$('#uploadFileList').DataTable().rows().count();i++)
             {
                 // $($('#table').DataTable().row(0).node()).find('input').prop("checked", is_checked)
@@ -272,11 +273,30 @@
 
                 if(curnode.find("input[name='singlecheck']").prop('checked'))
                 {
-                    fileIDList.push({'fileID':$('#uploadFileList').DataTable().row(i).data().id});
+                   //fileIDList.push({'fileID':$('#uploadFileList').DataTable().row(i).data().id});
+                    fileIDList.push($('#uploadFileList').DataTable().row(i).data().id);
                     // list=list+','+$('#uploadFileList').DataTable().row(i).data().id;
                 }
             }
-            alert(fileIDList);
+            $.ajax({
+                type:"POST",
+                url:"${ctx}/upload/delSelect",
+                async:false,
+                dataType: "json",
+                // contentType:"application/json",//如果传递字符串，这里就不用定义
+
+                // data:{"fileIDList":JSON.stringify(fileIDList)},
+                data:{"fileIDList":fileIDList.toString()},
+                success:function(data){
+                    if(data.result=="success")
+                    {
+                        alert('删除成功');
+                        //table._fnReDraw
+                        window.location.reload();
+                    }
+                }
+            });
+           // alert(fileIDList);
         });
         $('#uploadFile').ace_file_input({
             no_file:'未选择文件 ...',

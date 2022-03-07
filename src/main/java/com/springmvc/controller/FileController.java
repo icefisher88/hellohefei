@@ -6,10 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,6 +44,17 @@ public class FileController {
         map2Json.put("aaData",files);
         System.out.println("hello");
         return map2Json;
+    }
+
+    @RequestMapping(value="/upload/delSelect",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> delMultiRow(@RequestParam(name="fileIDList") String[] requestBody)
+    {
+        Map<String,String> result=new HashMap<String,String>();
+//        System.out.println(requestBody);
+        //这里解析ID数组，然后调用单个文件删除方法
+        result.put("result","success");
+        return result;
     }
 
     @RequestMapping(value="/upload/delRow",method= RequestMethod.GET)
