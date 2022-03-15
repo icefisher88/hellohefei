@@ -105,13 +105,13 @@ public class PurchaseContractMapperTest extends TestCase {
         Date effectiveDate=null;//生效时间
         if(curRow.getCell(7).getDateCellValue()!=null)
         {
-            effectiveDate=curRow.getCell(6).getDateCellValue();
+            effectiveDate=curRow.getCell(7).getDateCellValue();
         }
         String pricingManner=curRow.getCell(8).getStringCellValue();//计价方式
         BigDecimal contractAmount=new BigDecimal(0);//合同金额
-        if(StringUtils.isNotEmpty(curRow.getCell(9).getStringCellValue()))
+        if(curRow.getCell(9).getNumericCellValue()>0)
         {
-            contractAmount=new BigDecimal(curRow.getCell(9).getStringCellValue());
+            contractAmount=new BigDecimal(curRow.getCell(9).getNumericCellValue());
         }
         String currency=curRow.getCell(10).getStringCellValue();//币种
         BigDecimal exchangeRate=null;//汇率
