@@ -28,7 +28,7 @@ public class UploadfileMapperTest extends TestCase {
     }
     @Test
     public void testInsert(){
-
+              //  System.out.println(FileController.class.getResource("/").getPath());
                 Uploadfile uf=new Uploadfile();
                 uf.setOriginname("test.xls");
                 uf.setNewname("220302163939.xls");
@@ -38,6 +38,7 @@ public class UploadfileMapperTest extends TestCase {
                 int result=mapper.insert(uf);
                 System.out.println("the result is:"+result);
                 assert (result==1);
+
     }
 
     @Test

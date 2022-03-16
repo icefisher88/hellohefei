@@ -4,10 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.springmvc.entity.PurchaseContract;
 import junit.framework.TestCase;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.openxml4j.opc.PackageAccess;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -44,12 +43,12 @@ public class PurchaseContractMapperTest extends TestCase {
     @Test
     public void testInsertByExcel() {
        String  filePath="E:\\cght_mb.xlsx";
-        System.out.println(filePath);
-       Boolean execute=false;
+       System.out.println(filePath);
+       Boolean execute=true;
         File targetFile=new File(filePath);
         if(targetFile.exists()){
             try {
-                OPCPackage tarPackage=OPCPackage.open(targetFile);
+                OPCPackage tarPackage=OPCPackage.open(targetFile, PackageAccess.READ);
                 XSSFWorkbook xb=new XSSFWorkbook(tarPackage);
                 XSSFSheet xs=xb.getSheetAt(0);
                 System.out.println(xs.getSheetName());
@@ -58,6 +57,8 @@ public class PurchaseContractMapperTest extends TestCase {
                 System.out.println(lastIndex+"");
                 for(int i=startIndex;i<lastIndex;i++){
                     XSSFRow curRow=xs.getRow(i);
+                    if(StringUtils.isEmpty(curRow.getCell(0).getStringCellValue()))
+                        break;
                     PurchaseContract cght=getSingleContract(curRow);
                     if(cght!=null)
                     {
@@ -115,14 +116,14 @@ public class PurchaseContractMapperTest extends TestCase {
         }
         String currency=curRow.getCell(10).getStringCellValue();//币种
         BigDecimal exchangeRate=null;//汇率
-        if(StringUtils.isNotEmpty(curRow.getCell(11).getStringCellValue()))
+        if(curRow.getCell(11).getNumericCellValue()>0)
         {
-            exchangeRate=new BigDecimal(curRow.getCell(11).getStringCellValue());
+            exchangeRate=new BigDecimal(curRow.getCell(11).getNumericCellValue());
         }
         BigDecimal taxRate=null;//税率
-        if(StringUtils.isNotEmpty(curRow.getCell(12).getStringCellValue()))
+        if(curRow.getCell(12).getNumericCellValue()>0)
         {
-            taxRate=new BigDecimal(curRow.getCell(12).getStringCellValue());
+            taxRate=new BigDecimal(curRow.getCell(12).getNumericCellValue());
         }
         String payWay=curRow.getCell(13).getStringCellValue();//付款方式
         String capitalSource=curRow.getCell(14).getStringCellValue();//资金来源
@@ -138,45 +139,45 @@ public class PurchaseContractMapperTest extends TestCase {
         String isQualifiedSupplier=curRow.getCell(24).getStringCellValue();//供应商类型
         String isInUnitCompany=curRow.getCell(25).getStringCellValue();//是否集团内单位
         String purchaseOrgForm=curRow.getCell(26).getStringCellValue();//采购组织形式
-        String purchaseWay=curRow.getCell(26).getStringCellValue();//采购方式
-        String budgetTypes=curRow.getCell(27).getStringCellValue();//预算类型
+        String purchaseWay=curRow.getCell(27).getStringCellValue();//采购方式
+        String budgetTypes=curRow.getCell(28).getStringCellValue();//预算类型
         BigDecimal investmentBudget=null;//采购包或投标预算
-        if(StringUtils.isNotEmpty(curRow.getCell(28).getStringCellValue()))
+        if(curRow.getCell(29).getNumericCellValue()>0)
         {
-            investmentBudget=new BigDecimal(curRow.getCell(28).getStringCellValue());
+            investmentBudget=new BigDecimal(curRow.getCell(29).getNumericCellValue());
         }
-        String evaluationMethod=curRow.getCell(29).getStringCellValue();//评标评价方法
-        String technicalWeight=curRow.getCell(30).getStringCellValue();//技术权重
-        String businessWeight=curRow.getCell(31).getStringCellValue();//商务权重
+        String evaluationMethod=curRow.getCell(30).getStringCellValue();//评标评价方法
+        String technicalWeight=curRow.getCell(31).getStringCellValue();//技术权重
+        String businessWeight=curRow.getCell(32).getStringCellValue();//商务权重
         Date invitationDate=null;//发标日期
-        if(StringUtils.isNotEmpty(curRow.getCell(32).getStringCellValue()))
+        if(curRow.getCell(33).getDateCellValue()!=null)
         {
-            invitationDate=sdf.parse(curRow.getCell(32).getStringCellValue());
+            invitationDate=curRow.getCell(33).getDateCellValue();
         }
         Date openingDate=null;//开标日期
-        if(StringUtils.isNotEmpty(curRow.getCell(33).getStringCellValue()))
+        if(curRow.getCell(34).getDateCellValue()!=null)
         {
-            openingDate=sdf.parse(curRow.getCell(33).getStringCellValue());
+            openingDate=curRow.getCell(34).getDateCellValue();
         }
         Date startTime=new Date();//开始时间
-        if(StringUtils.isNotEmpty(curRow.getCell(34).getStringCellValue()))
+        if(curRow.getCell(35).getDateCellValue()!=null)
         {
-            startTime=sdf.parse(curRow.getCell(34).getStringCellValue());
+            startTime=curRow.getCell(35).getDateCellValue();
         }
         Date endTime=new Date();//结束时间
-        if(StringUtils.isNotEmpty(curRow.getCell(35).getStringCellValue()))
+        if(curRow.getCell(36).getDateCellValue()!=null)
         {
-            endTime=sdf.parse(curRow.getCell(35).getStringCellValue());
+            endTime=curRow.getCell(36).getDateCellValue();
         }
-        String fulfillmentPlace=curRow.getCell(36).getStringCellValue();//履约地点
-        String performanceGuarantee=curRow.getCell(37).getStringCellValue();//履约担保
-        String contKeepStatus=curRow.getCell(38).getStringCellValue();//履约状态
-        String performanceStage=curRow.getCell(39).getStringCellValue();//履约阶段
-        String instructions=curRow.getCell(40).getStringCellValue();//履约阶段说明
-        String supplierEvaluation=curRow.getCell(41).getStringCellValue();//履约评价
-        String whetherToChange=curRow.getCell(42).getStringCellValue();//是否有变更
-        String changeOfSubsidiary=curRow.getCell(43).getStringCellValue();//变更明细
-        String procurementPlatform=curRow.getCell(44).getStringCellValue();//电子招标平台
+        String fulfillmentPlace=curRow.getCell(37).getStringCellValue();//履约地点
+        String performanceGuarantee=curRow.getCell(38).getStringCellValue();//履约担保
+        String contKeepStatus=curRow.getCell(39).getStringCellValue();//履约状态
+        String performanceStage=curRow.getCell(40).getStringCellValue();//履约阶段
+        String instructions=curRow.getCell(41).getStringCellValue();//履约阶段说明
+        String supplierEvaluation=curRow.getCell(42).getStringCellValue();//履约评价
+        String whetherToChange=curRow.getCell(43).getStringCellValue();//是否有变更
+        String changeOfSubsidiary=curRow.getCell(44).getStringCellValue();//变更明细
+        String procurementPlatform=curRow.getCell(45).getStringCellValue();//电子招标平台
         //---------------赋值给实体对象
         cght.setContractCode(contractCode);
         cght.setContractName(contractName);
@@ -224,6 +225,9 @@ public class PurchaseContractMapperTest extends TestCase {
         cght.setWhetherToChange(whetherToChange);
         cght.setChangeOfSubsidiary(changeOfSubsidiary);
         cght.setProcurementPlatform(procurementPlatform);
+        cght.setCompanyCode("01-0126-01-0126-C3940");//
+        cght.setCreateBy("CETCBW");
+        cght.setTenantCode("BWGS");
         return cght;
     }
 
