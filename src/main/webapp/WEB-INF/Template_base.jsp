@@ -14,12 +14,13 @@
 <script src="${ctx}/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
 <!-- <![endif]-->
 
-<!--[if IE]>
-<script src="${ctx}/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
-<![endif]-->
+
 <!--[if lte IE 8]>
 <script src="${ctx}/js/html5shiv.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/js/respond.min.js" type="text/javascript" charset="utf-8"></script>
+<![endif]-->
+<!--[if IE]>
+<script src="${ctx}/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
 <![endif]-->
 <script src="${ctx}/js/ace.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/js/ace-elements.min.js" type="text/javascript" charset="utf-8"></script>

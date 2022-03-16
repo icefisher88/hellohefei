@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-@Component
 public  class DicUtil {
 //    public static ApplicationContext applicationContext;
 //    @Autowired

@@ -11,7 +11,7 @@
     <result column="order" property="order" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, pid, code, value, remark, status, order
+    `id`, `pid`, `code`, `value`, `remark`, `status`, `order`
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -22,7 +22,7 @@
   <select id="selectAllDics" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from contract_dic
+    from contract_dic where status='0'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from contract_dic
