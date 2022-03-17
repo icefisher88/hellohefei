@@ -1,6 +1,9 @@
 package com.springmvc.dao;
 
 import com.alibaba.fastjson.JSONArray;
+import com.springmvc.common.ContractUtil;
+import com.springmvc.common.DicUtil;
+import com.springmvc.common.MenuCodeEnum;
 import com.springmvc.entity.PurchaseContract;
 import junit.framework.TestCase;
 import org.apache.commons.lang.StringUtils;
@@ -39,6 +42,8 @@ public class PurchaseContractMapperTest extends TestCase {
     }
     @Test
     public void testInsert() {
+        String result=DicUtil.getItemCode(MenuCodeEnum.HTZT_CG, "履行中", "");
+        System.out.println(result);
     }
     @Test
     public void testInsertByExcel() {
@@ -228,7 +233,8 @@ public class PurchaseContractMapperTest extends TestCase {
         cght.setCompanyCode("01-0126-01-0126-C3940");//
         cght.setCreateBy("CETCBW");
         cght.setTenantCode("BWGS");
-        return cght;
+        cght.setUploadFlag(0);
+        return ContractUtil.handleTranslateContract(cght);
     }
 
 }

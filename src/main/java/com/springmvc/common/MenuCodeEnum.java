@@ -33,7 +33,7 @@ public enum MenuCodeEnum {
     FKFS("FKFS", "付款方式"),
     CGFS("CGFS", "采购方式"),
     CGZZLX("CGZZLX", "采购组织形式"),
-    GFXZ("GFXZ", "供方性质"),
+    GFXZ("GFXZ", "卖方性质"),
     ZJLY("ZJLY", "资金来源"),
     LYDD("LYDD", "履约地点"),
     CGDXFL("CGDXFL", "采购对象分类"),
