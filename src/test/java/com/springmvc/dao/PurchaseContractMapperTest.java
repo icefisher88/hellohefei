@@ -49,7 +49,7 @@ public class PurchaseContractMapperTest extends TestCase {
     public void testInsertByExcel() {
        String  filePath="E:\\cght_mb.xlsx";
        System.out.println(filePath);
-       Boolean execute=true;
+       Boolean execute=false;
         File targetFile=new File(filePath);
         if(targetFile.exists()){
             try {

@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springmvc.dao.SellContractMapper" >
+  <resultMap id="BaseResultMap" type="com.springmvc.entity.SellContract" >
+    <id column="contractid" property="contractid" jdbcType="INTEGER" />
+    <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
+    <result column="contract_code" property="contractCode" jdbcType="VARCHAR" />
+    <result column="contract_name" property="contractName" jdbcType="VARCHAR" />
+    <result column="contract_secret_lev" property="contractSecretLev" jdbcType="VARCHAR" />
+    <result column="contract_amount" property="contractAmount" jdbcType="DECIMAL" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="exchange_rate" property="exchangeRate" jdbcType="DECIMAL" />
+    <result column="sign_time" property="signTime" jdbcType="DATE" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="contract_owner" property="contractOwner" jdbcType="VARCHAR" />
+    <result column="owner_unify_code" property="ownerUnifyCode" jdbcType="VARCHAR" />
+    <result column="owner_classify" property="ownerClassify" jdbcType="VARCHAR" />
+    <result column="contract_party_b" property="contractPartyB" jdbcType="VARCHAR" />
+    <result column="party_b_unify_code" property="partyBUnifyCode" jdbcType="VARCHAR" />
+    <result column="contract_text" property="contractText" jdbcType="VARCHAR" />
+    <result column="contract_remark" property="contractRemark" jdbcType="VARCHAR" />
+    <result column="their_business" property="theirBusiness" jdbcType="VARCHAR" />
+    <result column="four_plate" property="fourPlate" jdbcType="VARCHAR" />
+    <result column="core_business_class" property="coreBusinessClass" jdbcType="VARCHAR" />
+    <result column="project_code" property="projectCode" jdbcType="VARCHAR" />
+    <result column="group_project_id" property="groupProjectId" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="tenant_code" property="tenantCode" jdbcType="VARCHAR" />
+    <result column="is_great_new_cont" property="isGreatNewCont" jdbcType="VARCHAR" />
+    <result column="army_class2" property="armyClass2" jdbcType="VARCHAR" />
+    <result column="charge_army_office" property="chargeArmyOffice" jdbcType="VARCHAR" />
+    <result column="product_type" property="productType" jdbcType="VARCHAR" />
+    <result column="make_type" property="makeType" jdbcType="VARCHAR" />
+    <result column="professional_field" property="professionalField" jdbcType="VARCHAR" />
+    <result column="is_great_project" property="isGreatProject" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="imp_exp_trade" property="impExpTrade" jdbcType="VARCHAR" />
+    <result column="classify_one" property="classifyOne" jdbcType="VARCHAR" />
+    <result column="classify_two" property="classifyTwo" jdbcType="VARCHAR" />
+    <result column="classify_three" property="classifyThree" jdbcType="VARCHAR" />
+    <result column="nationality" property="nationality" jdbcType="VARCHAR" />
+    <result column="sci_tech_classify" property="sciTechClassify" jdbcType="VARCHAR" />
+    <result column="tech_earnings" property="techEarnings" jdbcType="VARCHAR" />
+    <result column="technical_b" property="technicalB" jdbcType="VARCHAR" />
+    <result column="technical_b2" property="technicalB2" jdbcType="VARCHAR" />
+    <result column="industry_classify" property="industryClassify" jdbcType="VARCHAR" />
+    <result column="sell_contract_type" property="sellContractType" jdbcType="VARCHAR" />
+    <result column="upload_flag" property="uploadFlag" jdbcType="INTEGER" />
+    <result column="upload_time" property="uploadTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    contractid, company_code, contract_code, contract_name, contract_secret_lev, contract_amount, 
+    currency, exchange_rate, sign_time, start_time, end_time, contract_owner, owner_unify_code, 
+    owner_classify, contract_party_b, party_b_unify_code, contract_text, contract_remark, 
+    their_business, four_plate, core_business_class, project_code, group_project_id, 
+    create_by, tenant_code, is_great_new_cont, army_class2, charge_army_office, product_type, 
+    make_type, professional_field, is_great_project, channel, imp_exp_trade, classify_one, 
+    classify_two, classify_three, nationality, sci_tech_classify, tech_earnings, technical_b, 
+    technical_b2, industry_classify, sell_contract_type, upload_flag, upload_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sell_contract
+    where contractid = #{contractid,jdbcType=INTEGER}
+  </select>
+<!--  获取所有销售合同-->
+  <select id="getAllSellContract" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sell_contract
+  </select>
+<!-- 获取所有未推送合同 -->
+  <select id="getAllUnuploadSellContract" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sell_contract
+    where upload_flag = 0
+  </select>
+  <!-- 获取所有已推送合同 -->
+  <select id="getAllUploadedSellContract" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sell_contract
+    where upload_flag = 1
+  </select>
+  <!-- 获取所有推送失败合同 -->
+  <select id="getAllUploadFailedSellContract" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sell_contract
+    where upload_flag = 2
+  </select>
+<!--  更新合同推送状态-->
+  <update id="updateSCUploadFlagByPrimaryKey" parameterType="com.springmvc.entity.PurchaseContract">
+    update sell_contract
+    set upload_flg = #{uploadFlg,jdbcType=INTEGER}
+    where  contractid = #{contractid,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sell_contract
+    where contractid = #{contractid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springmvc.entity.SellContract" >
+    insert into sell_contract (contractid, company_code, contract_code, 
+      contract_name, contract_secret_lev, contract_amount, 
+      currency, exchange_rate, sign_time, 
+      start_time, end_time, contract_owner, 
+      owner_unify_code, owner_classify, contract_party_b, 
+      party_b_unify_code, contract_text, contract_remark, 
+      their_business, four_plate, core_business_class, 
+      project_code, group_project_id, create_by, 
+      tenant_code, is_great_new_cont, army_class2, 
+      charge_army_office, product_type, make_type, 
+      professional_field, is_great_project, channel, 
+      imp_exp_trade, classify_one, classify_two, 
+      classify_three, nationality, sci_tech_classify, 
+      tech_earnings, technical_b, technical_b2, 
+      industry_classify, sell_contract_type, upload_flag, 
+      upload_time)
+    values (#{contractid,jdbcType=INTEGER}, #{companyCode,jdbcType=VARCHAR}, #{contractCode,jdbcType=VARCHAR}, 
+      #{contractName,jdbcType=VARCHAR}, #{contractSecretLev,jdbcType=VARCHAR}, #{contractAmount,jdbcType=DECIMAL}, 
+      #{currency,jdbcType=VARCHAR}, #{exchangeRate,jdbcType=DECIMAL}, #{signTime,jdbcType=DATE},
+      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{contractOwner,jdbcType=VARCHAR}, 
+      #{ownerUnifyCode,jdbcType=VARCHAR}, #{ownerClassify,jdbcType=VARCHAR}, #{contractPartyB,jdbcType=VARCHAR}, 
+      #{partyBUnifyCode,jdbcType=VARCHAR}, #{contractText,jdbcType=VARCHAR}, #{contractRemark,jdbcType=VARCHAR}, 
+      #{theirBusiness,jdbcType=VARCHAR}, #{fourPlate,jdbcType=VARCHAR}, #{coreBusinessClass,jdbcType=VARCHAR}, 
+      #{projectCode,jdbcType=VARCHAR}, #{groupProjectId,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{tenantCode,jdbcType=VARCHAR}, #{isGreatNewCont,jdbcType=VARCHAR}, #{armyClass2,jdbcType=VARCHAR}, 
+      #{chargeArmyOffice,jdbcType=VARCHAR}, #{productType,jdbcType=VARCHAR}, #{makeType,jdbcType=VARCHAR}, 
+      #{professionalField,jdbcType=VARCHAR}, #{isGreatProject,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, 
+      #{impExpTrade,jdbcType=VARCHAR}, #{classifyOne,jdbcType=VARCHAR}, #{classifyTwo,jdbcType=VARCHAR}, 
+      #{classifyThree,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, #{sciTechClassify,jdbcType=VARCHAR}, 
+      #{techEarnings,jdbcType=VARCHAR}, #{technicalB,jdbcType=VARCHAR}, #{technicalB2,jdbcType=VARCHAR}, 
+      #{industryClassify,jdbcType=VARCHAR}, #{sellContractType,jdbcType=VARCHAR}, #{uploadFlag,jdbcType=INTEGER}, 
+      #{uploadTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.entity.SellContract" >
+    insert into sell_contract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contractid != null" >
+        contractid,
+      </if>
+      <if test="companyCode != null" >
+        company_code,
+      </if>
+      <if test="contractCode != null" >
+        contract_code,
+      </if>
+      <if test="contractName != null" >
+        contract_name,
+      </if>
+      <if test="contractSecretLev != null" >
+        contract_secret_lev,
+      </if>
+      <if test="contractAmount != null" >
+        contract_amount,
+      </if>
+      <if test="currency != null" >
+        currency,
+      </if>
+      <if test="exchangeRate != null" >
+        exchange_rate,
+      </if>
+      <if test="signTime != null" >
+        sign_time,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="contractOwner != null" >
+        contract_owner,
+      </if>
+      <if test="ownerUnifyCode != null" >
+        owner_unify_code,
+      </if>
+      <if test="ownerClassify != null" >
+        owner_classify,
+      </if>
+      <if test="contractPartyB != null" >
+        contract_party_b,
+      </if>
+      <if test="partyBUnifyCode != null" >
+        party_b_unify_code,
+      </if>
+      <if test="contractText != null" >
+        contract_text,
+      </if>
+      <if test="contractRemark != null" >
+        contract_remark,
+      </if>
+      <if test="theirBusiness != null" >
+        their_business,
+      </if>
+      <if test="fourPlate != null" >
+        four_plate,
+      </if>
+      <if test="coreBusinessClass != null" >
+        core_business_class,
+      </if>
+      <if test="projectCode != null" >
+        project_code,
+      </if>
+      <if test="groupProjectId != null" >
+        group_project_id,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="tenantCode != null" >
+        tenant_code,
+      </if>
+      <if test="isGreatNewCont != null" >
+        is_great_new_cont,
+      </if>
+      <if test="armyClass2 != null" >
+        army_class2,
+      </if>
+      <if test="chargeArmyOffice != null" >
+        charge_army_office,
+      </if>
+      <if test="productType != null" >
+        product_type,
+      </if>
+      <if test="makeType != null" >
+        make_type,
+      </if>
+      <if test="professionalField != null" >
+        professional_field,
+      </if>
+      <if test="isGreatProject != null" >
+        is_great_project,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="impExpTrade != null" >
+        imp_exp_trade,
+      </if>
+      <if test="classifyOne != null" >
+        classify_one,
+      </if>
+      <if test="classifyTwo != null" >
+        classify_two,
+      </if>
+      <if test="classifyThree != null" >
+        classify_three,
+      </if>
+      <if test="nationality != null" >
+        nationality,
+      </if>
+      <if test="sciTechClassify != null" >
+        sci_tech_classify,
+      </if>
+      <if test="techEarnings != null" >
+        tech_earnings,
+      </if>
+      <if test="technicalB != null" >
+        technical_b,
+      </if>
+      <if test="technicalB2 != null" >
+        technical_b2,
+      </if>
+      <if test="industryClassify != null" >
+        industry_classify,
+      </if>
+      <if test="sellContractType != null" >
+        sell_contract_type,
+      </if>
+      <if test="uploadFlag != null" >
+        upload_flag,
+      </if>
+      <if test="uploadTime != null" >
+        upload_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contractid != null" >
+        #{contractid,jdbcType=INTEGER},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractCode != null" >
+        #{contractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractName != null" >
+        #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractSecretLev != null" >
+        #{contractSecretLev,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmount != null" >
+        #{contractAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeRate != null" >
+        #{exchangeRate,jdbcType=DECIMAL},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=DATE},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="contractOwner != null" >
+        #{contractOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerUnifyCode != null" >
+        #{ownerUnifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerClassify != null" >
+        #{ownerClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="contractPartyB != null" >
+        #{contractPartyB,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBUnifyCode != null" >
+        #{partyBUnifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractText != null" >
+        #{contractText,jdbcType=VARCHAR},
+      </if>
+      <if test="contractRemark != null" >
+        #{contractRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="theirBusiness != null" >
+        #{theirBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="fourPlate != null" >
+        #{fourPlate,jdbcType=VARCHAR},
+      </if>
+      <if test="coreBusinessClass != null" >
+        #{coreBusinessClass,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupProjectId != null" >
+        #{groupProjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantCode != null" >
+        #{tenantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isGreatNewCont != null" >
+        #{isGreatNewCont,jdbcType=VARCHAR},
+      </if>
+      <if test="armyClass2 != null" >
+        #{armyClass2,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeArmyOffice != null" >
+        #{chargeArmyOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null" >
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="makeType != null" >
+        #{makeType,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalField != null" >
+        #{professionalField,jdbcType=VARCHAR},
+      </if>
+      <if test="isGreatProject != null" >
+        #{isGreatProject,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="impExpTrade != null" >
+        #{impExpTrade,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyOne != null" >
+        #{classifyOne,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyTwo != null" >
+        #{classifyTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyThree != null" >
+        #{classifyThree,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="sciTechClassify != null" >
+        #{sciTechClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="techEarnings != null" >
+        #{techEarnings,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalB != null" >
+        #{technicalB,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalB2 != null" >
+        #{technicalB2,jdbcType=VARCHAR},
+      </if>
+      <if test="industryClassify != null" >
+        #{industryClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="sellContractType != null" >
+        #{sellContractType,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadFlag != null" >
+        #{uploadFlag,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null" >
+        #{uploadTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.entity.SellContract" >
+    update sell_contract
+    <set >
+      <if test="companyCode != null" >
+        company_code = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractCode != null" >
+        contract_code = #{contractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractName != null" >
+        contract_name = #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractSecretLev != null" >
+        contract_secret_lev = #{contractSecretLev,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmount != null" >
+        contract_amount = #{contractAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        currency = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeRate != null" >
+        exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
+      </if>
+      <if test="signTime != null" >
+        sign_time = #{signTime,jdbcType=DATE},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="contractOwner != null" >
+        contract_owner = #{contractOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerUnifyCode != null" >
+        owner_unify_code = #{ownerUnifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerClassify != null" >
+        owner_classify = #{ownerClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="contractPartyB != null" >
+        contract_party_b = #{contractPartyB,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBUnifyCode != null" >
+        party_b_unify_code = #{partyBUnifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractText != null" >
+        contract_text = #{contractText,jdbcType=VARCHAR},
+      </if>
+      <if test="contractRemark != null" >
+        contract_remark = #{contractRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="theirBusiness != null" >
+        their_business = #{theirBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="fourPlate != null" >
+        four_plate = #{fourPlate,jdbcType=VARCHAR},
+      </if>
+      <if test="coreBusinessClass != null" >
+        core_business_class = #{coreBusinessClass,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        project_code = #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupProjectId != null" >
+        group_project_id = #{groupProjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantCode != null" >
+        tenant_code = #{tenantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isGreatNewCont != null" >
+        is_great_new_cont = #{isGreatNewCont,jdbcType=VARCHAR},
+      </if>
+      <if test="armyClass2 != null" >
+        army_class2 = #{armyClass2,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeArmyOffice != null" >
+        charge_army_office = #{chargeArmyOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null" >
+        product_type = #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="makeType != null" >
+        make_type = #{makeType,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalField != null" >
+        professional_field = #{professionalField,jdbcType=VARCHAR},
+      </if>
+      <if test="isGreatProject != null" >
+        is_great_project = #{isGreatProject,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="impExpTrade != null" >
+        imp_exp_trade = #{impExpTrade,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyOne != null" >
+        classify_one = #{classifyOne,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyTwo != null" >
+        classify_two = #{classifyTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyThree != null" >
+        classify_three = #{classifyThree,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        nationality = #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="sciTechClassify != null" >
+        sci_tech_classify = #{sciTechClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="techEarnings != null" >
+        tech_earnings = #{techEarnings,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalB != null" >
+        technical_b = #{technicalB,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalB2 != null" >
+        technical_b2 = #{technicalB2,jdbcType=VARCHAR},
+      </if>
+      <if test="industryClassify != null" >
+        industry_classify = #{industryClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="sellContractType != null" >
+        sell_contract_type = #{sellContractType,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadFlag != null" >
+        upload_flag = #{uploadFlag,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null" >
+        upload_time = #{uploadTime,jdbcType=DATE},
+      </if>
+    </set>
+    where contractid = #{contractid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springmvc.entity.SellContract" >
+    update sell_contract
+    set company_code = #{companyCode,jdbcType=VARCHAR},
+      contract_code = #{contractCode,jdbcType=VARCHAR},
+      contract_name = #{contractName,jdbcType=VARCHAR},
+      contract_secret_lev = #{contractSecretLev,jdbcType=VARCHAR},
+      contract_amount = #{contractAmount,jdbcType=DECIMAL},
+      currency = #{currency,jdbcType=VARCHAR},
+      exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
+      sign_time = #{signTime,jdbcType=DATE},
+      start_time = #{startTime,jdbcType=DATE},
+      end_time = #{endTime,jdbcType=DATE},
+      contract_owner = #{contractOwner,jdbcType=VARCHAR},
+      owner_unify_code = #{ownerUnifyCode,jdbcType=VARCHAR},
+      owner_classify = #{ownerClassify,jdbcType=VARCHAR},
+      contract_party_b = #{contractPartyB,jdbcType=VARCHAR},
+      party_b_unify_code = #{partyBUnifyCode,jdbcType=VARCHAR},
+      contract_text = #{contractText,jdbcType=VARCHAR},
+      contract_remark = #{contractRemark,jdbcType=VARCHAR},
+      their_business = #{theirBusiness,jdbcType=VARCHAR},
+      four_plate = #{fourPlate,jdbcType=VARCHAR},
+      core_business_class = #{coreBusinessClass,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      group_project_id = #{groupProjectId,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      tenant_code = #{tenantCode,jdbcType=VARCHAR},
+      is_great_new_cont = #{isGreatNewCont,jdbcType=VARCHAR},
+      army_class2 = #{armyClass2,jdbcType=VARCHAR},
+      charge_army_office = #{chargeArmyOffice,jdbcType=VARCHAR},
+      product_type = #{productType,jdbcType=VARCHAR},
+      make_type = #{makeType,jdbcType=VARCHAR},
+      professional_field = #{professionalField,jdbcType=VARCHAR},
+      is_great_project = #{isGreatProject,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      imp_exp_trade = #{impExpTrade,jdbcType=VARCHAR},
+      classify_one = #{classifyOne,jdbcType=VARCHAR},
+      classify_two = #{classifyTwo,jdbcType=VARCHAR},
+      classify_three = #{classifyThree,jdbcType=VARCHAR},
+      nationality = #{nationality,jdbcType=VARCHAR},
+      sci_tech_classify = #{sciTechClassify,jdbcType=VARCHAR},
+      tech_earnings = #{techEarnings,jdbcType=VARCHAR},
+      technical_b = #{technicalB,jdbcType=VARCHAR},
+      technical_b2 = #{technicalB2,jdbcType=VARCHAR},
+      industry_classify = #{industryClassify,jdbcType=VARCHAR},
+      sell_contract_type = #{sellContractType,jdbcType=VARCHAR},
+      upload_flag = #{uploadFlag,jdbcType=INTEGER},
+      upload_time = #{uploadTime,jdbcType=DATE}
+    where contractid = #{contractid,jdbcType=INTEGER}
+  </update>
+</mapper>
