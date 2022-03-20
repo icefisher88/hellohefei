@@ -49,7 +49,7 @@ public enum MenuCodeEnum {
     CPSX("CPSX", "产品属性"),
     YT("YT", "用途"),
     JSSY("JSSY", "技术收益"),
-    JSSY2("JSSY2", "技术收益"),
+    JSSY2("JSSY2", "技术收益（二）"),
     HTZT_CG("HTZT_CG", "合同状态_采购"),
     GFLX("GFLX", "供应商类型"),
     JZHT("JZHT", "结转合同"),

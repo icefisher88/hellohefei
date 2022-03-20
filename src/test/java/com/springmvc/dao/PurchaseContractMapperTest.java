@@ -1,10 +1,13 @@
 package com.springmvc.dao;
 
 import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springmvc.common.ContractEnum;
 import com.springmvc.common.ContractUtil;
 import com.springmvc.common.DicUtil;
 import com.springmvc.common.MenuCodeEnum;
 import com.springmvc.entity.PurchaseContract;
+import com.springmvc.entity.SellContract;
 import junit.framework.TestCase;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -26,25 +29,32 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class PurchaseContractMapperTest extends TestCase {
     private ApplicationContext applicationContext;
     @Autowired
     private PurchaseContractMapper mapper;
-    @Before
     public void setUp(){
         applicationContext=new ClassPathXmlApplicationContext("classpath:spring/applicationContext.xml");
         mapper=applicationContext.getBean(PurchaseContractMapper.class);
     }
-    @After
-    public void tearDown(){
-
-    }
     @Test
-    public void testInsert() {
-        String result=DicUtil.getItemCode(MenuCodeEnum.HTZT_CG, "履行中", "");
+    public void testTrans() {
+        String result=DicUtil.getItemCode(MenuCodeEnum.JSSY2, "其他", "");
         System.out.println(result);
     }
+
+    @Test
+    public void testGetEntityFromExcel() throws IOException, InvalidFormatException {
+        String filePath="C:\\sellcontract/cght.xlsx";
+        File tarFile=new File(filePath);
+        List<PurchaseContract> xx = ContractUtil.importPurchaseContractFromExcel(tarFile);
+        ObjectMapper om=new ObjectMapper();
+        String jsonResult=om.writeValueAsString(xx);
+        System.out.println("the result is:"+jsonResult);
+    }
+
     @Test
     public void testInsertByExcel() {
        String  filePath="E:\\cght_mb.xlsx";
@@ -94,8 +104,8 @@ public class PurchaseContractMapperTest extends TestCase {
         }
 
     }
-    public static PurchaseContract getSingleContract(XSSFRow curRow) throws ParseException {
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+
+    static PurchaseContract getSingleContract(XSSFRow curRow) throws ParseException {
         PurchaseContract cght=new PurchaseContract();
         String contractName=curRow.getCell(0).getStringCellValue();//合同名称
         String contractCode=curRow.getCell(1).getStringCellValue();//合同编号
@@ -236,5 +246,4 @@ public class PurchaseContractMapperTest extends TestCase {
         cght.setUploadFlag(0);
         return ContractUtil.handleTranslateContract(cght);
     }
-
 }

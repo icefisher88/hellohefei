@@ -4,9 +4,12 @@ import com.springmvc.entity.PurchaseContract;
 import com.springmvc.entity.SellContract;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -14,44 +17,222 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ContractUtil {
     static Logger logger = Logger.getLogger(ContractUtil.class.getName ()) ;
-
-    public static List<SellContract> importContractFromExcel(File excelFile,String contractType) throws InvalidFormatException, IOException {
-
-        List<SellContract> transSellContracts=new ArrayList<>();
-//        try {
+    private static FormulaEvaluator evaluator;
+    public static List<SellContract> importSellContractFromExcel(File excelFile,String contractType) throws InvalidFormatException, IOException {
+            List<SellContract> transSellContracts=new ArrayList<>();
             OPCPackage tarPackage=OPCPackage.open(excelFile, PackageAccess.READ);
             XSSFWorkbook xb= null;
             xb = new XSSFWorkbook(tarPackage);
-            XSSFSheet xs=xb.getSheetAt(0);
-            int startIndex=2;
-            int lastIndex=xs.getLastRowNum();
-            logger.debug("the open excel last rownum is:"+lastIndex);
+            XSSFSheet xs=null;
+            //解决从模板中获取Sheet0不正确的问题（隐藏sheet，先用Sheet名称匹配)
+            if(contractType.equals(ContractEnum.JPHT.type))
+                xs=xb.getSheet("军品合同数据");
+            else if(contractType.equals(ContractEnum.MPHT.type))
+                xs=xb.getSheet("民品合同数据");
+            else if(contractType.equals(ContractEnum.GJHCJ.type))
+                xs=xb.getSheet("国际化成交合同");
+            else if(contractType.equals(ContractEnum.GJHSX.type))
+                xs=xb.getSheet("国际化生效合同");
+            else if(contractType.equals(ContractEnum.KJCX.type))
+                xs=xb.getSheet("科技创新合同");
+            else if(contractType.equals(ContractEnum.QTYW.type))
+                xs=xb.getSheet("其他业务合同");
+            if(xs==null)
+            xs=xb.getSheetAt(0);
+           int startIndex=2;
+            int lastIndex=xs.getPhysicalNumberOfRows();
+            logger.info("the open excel last rownum is:"+lastIndex);
             for(int i=startIndex;i<lastIndex;i++){
                 XSSFRow curRow=xs.getRow(i);
-                if(StringUtils.isEmpty(curRow.getCell(0).getStringCellValue())){
-                    logger.debug("the last hanld Row num is:"+(i-1));
+                if(curRow==null||ContractUtil.getCellValueByCell(curRow.getCell(0))==null){
+                    logger.info("the last hanld Row num is:"+(i-1));
                     break;//
                 }
                 SellContract finalContract = getSingleSellContract(curRow, contractType);
                 transSellContracts.add(finalContract);
             }
-//        }catch (InvalidFormatException e) {
-//            logger.error("打开Excel文件出错");
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            logger.error("Excel文件I/O读写出错");
-//            e.printStackTrace();
-//        }
         return transSellContracts;
     }
 
+    public static List<PurchaseContract> importPurchaseContractFromExcel(File excelFile) throws InvalidFormatException, IOException {
+        List<PurchaseContract> transPurchaseContracts=new ArrayList<>();
+        OPCPackage tarPackage=OPCPackage.open(excelFile, PackageAccess.READ);
+        XSSFWorkbook xb= null;
+        XSSFSheet xs=null;
+        xb = new XSSFWorkbook(tarPackage);
+        if(xb.getSheet("采购合同信息")!=null)
+            xs=xb.getSheet("采购合同信息");
+        else
+            xs=xb.getSheetAt(0);
+        int startIndex=2;
+        int lastIndex=xs.getPhysicalNumberOfRows();
+        for(int i=startIndex;i<lastIndex;i++) {
+            XSSFRow curRow = xs.getRow(i);
+            if(curRow==null||ContractUtil.getCellValueByCell(curRow.getCell(0))==null){
+                logger.info("the last hanld Row num is:"+(i-1));
+                break;//
+            }
+            PurchaseContract finalContract = getSinglePurchaseContract(curRow);
+            transPurchaseContracts.add(finalContract);
+        }
+        return transPurchaseContracts;
+    }
+
+    static PurchaseContract getSinglePurchaseContract(XSSFRow curRow){
+        PurchaseContract cght=new PurchaseContract();
+        String contractName= (String)getCellValueByCell(curRow.getCell(0));//合同名称
+        String contractCode=(String)getCellValueByCell(curRow.getCell(1));//合同编号
+        String contractStatus=(String)getCellValueByCell(curRow.getCell(2));//合同状态
+        String contractSecretLev=(String)getCellValueByCell(curRow.getCell(3));//合同密级
+        String purchaserName=(String)getCellValueByCell(curRow.getCell(4));//采购方
+        String purchaserCode=(String)getCellValueByCell(curRow.getCell(5));//采购人代码
+        Date signTime=null;//签订时间
+        if(getCellValueByCell(curRow.getCell(6))!=null)
+        {
+            signTime=curRow.getCell(6).getDateCellValue();
+        }
+        Date effectiveDate=null;//生效时间
+        if(getCellValueByCell(curRow.getCell(7))!=null)
+        {
+            effectiveDate=curRow.getCell(7).getDateCellValue();
+        }
+        String pricingManner=(String)getCellValueByCell(curRow.getCell(8));//计价方式
+        BigDecimal contractAmount=new BigDecimal(0);//合同金额
+        if(getCellValueByCell(curRow.getCell(9))!=null)
+        {
+            contractAmount=new BigDecimal(curRow.getCell(9).getNumericCellValue());
+        }
+        String currency=(String)getCellValueByCell(curRow.getCell(10));//币种
+        BigDecimal exchangeRate=null;//汇率
+        if(getCellValueByCell(curRow.getCell(11))!=null)
+        {
+            exchangeRate=new BigDecimal(curRow.getCell(11).getNumericCellValue());
+        }
+        BigDecimal taxRate=null;//税率
+        if(getCellValueByCell(curRow.getCell(12))!=null)
+        {
+            taxRate=new BigDecimal(curRow.getCell(12).getNumericCellValue());
+        }
+        String payWay=(String)getCellValueByCell(curRow.getCell(13));//付款方式
+        String capitalSource=(String)getCellValueByCell(curRow.getCell(14));//资金来源
+        String frameworkAgreement=(String)getCellValueByCell(curRow.getCell(15));//框架协议编号
+        String tender=(String)getCellValueByCell(curRow.getCell(16));//是否招标
+        String blockNumber=(String)getCellValueByCell(curRow.getCell(17));//采购包和标段编号
+        String blockName=(String)getCellValueByCell(curRow.getCell(18));//采购包和标段名称
+        String note=(String)getCellValueByCell(curRow.getCell(19));//备注
+        String supplierName=(String)getCellValueByCell(curRow.getCell(20));//卖方名称
+        String supplierCode=(String)getCellValueByCell(curRow.getCell(21));//卖方代码
+        String country=(String)getCellValueByCell(curRow.getCell(22));//卖方国别
+        String supplierClassify=(String)getCellValueByCell(curRow.getCell(23));//卖方性质
+        String isQualifiedSupplier=(String)getCellValueByCell(curRow.getCell(24));//供应商类型
+        String isInUnitCompany=(String)getCellValueByCell(curRow.getCell(25));//是否集团内单位
+        String purchaseOrgForm=(String)getCellValueByCell(curRow.getCell(26));//采购组织形式
+        String purchaseWay=(String)getCellValueByCell(curRow.getCell(27));//采购方式
+        String budgetTypes=(String)getCellValueByCell(curRow.getCell(28));//预算类型
+        BigDecimal investmentBudget=null;//采购包或投标预算
+        if(getCellValueByCell(curRow.getCell(29))!=null)
+        {
+            investmentBudget=new BigDecimal(curRow.getCell(29).getNumericCellValue());
+        }
+        String evaluationMethod=(String)getCellValueByCell(curRow.getCell(30));//评标评价方法
+        String technicalWeight=(String)getCellValueByCell(curRow.getCell(31));//技术权重
+        String businessWeight=(String)getCellValueByCell(curRow.getCell(32));//商务权重
+        Date invitationDate=null;//发标日期
+        if(getCellValueByCell(curRow.getCell(33))!=null)
+        {
+            invitationDate=curRow.getCell(33).getDateCellValue();
+        }
+        Date openingDate=null;//开标日期
+        if((String)getCellValueByCell(curRow.getCell(34))!=null)
+        {
+            openingDate=curRow.getCell(34).getDateCellValue();
+        }
+        Date startTime=new Date();//开始时间
+        if((String)getCellValueByCell(curRow.getCell(35))!=null)
+        {
+            startTime=curRow.getCell(35).getDateCellValue();
+        }
+        Date endTime=new Date();//结束时间
+        if((String)getCellValueByCell(curRow.getCell(36))!=null)
+        {
+            endTime=curRow.getCell(36).getDateCellValue();
+        }
+        String fulfillmentPlace=(String)getCellValueByCell(curRow.getCell(37));//履约地点
+        String performanceGuarantee=(String)getCellValueByCell(curRow.getCell(38));//履约担保
+        String contKeepStatus=(String)getCellValueByCell(curRow.getCell(39));//履约状态
+        String performanceStage=(String)getCellValueByCell(curRow.getCell(40));//履约阶段
+        String instructions=(String)getCellValueByCell(curRow.getCell(41));//履约阶段说明
+        String supplierEvaluation=(String)getCellValueByCell(curRow.getCell(42));//履约评价
+        String whetherToChange=(String)getCellValueByCell(curRow.getCell(43));//是否有变更
+        String changeOfSubsidiary=(String)getCellValueByCell(curRow.getCell(44));//变更明细
+        String procurementPlatform=(String)getCellValueByCell(curRow.getCell(45));//电子招标平台
+        //---------------赋值给实体对象
+        cght.setContractCode(contractCode);
+        cght.setContractName(contractName);
+        cght.setContractStatus(contractStatus);
+        cght.setContractSecretLev(contractSecretLev);
+        cght.setPurchaserName(purchaserName);
+        cght.setPurchaserCode(purchaserCode);
+        cght.setSignTime(signTime);
+        cght.setEffectiveDate(effectiveDate);
+        cght.setPricingManner(pricingManner);
+        cght.setContractAmount(contractAmount);
+        cght.setCurrency(currency);
+        cght.setExchangeRate(exchangeRate);
+        cght.setTaxRate(taxRate);
+        cght.setPayWay(payWay);
+        cght.setCapitalSource(capitalSource);
+        cght.setFrameworkAgreement(frameworkAgreement);
+        cght.setTender(tender);
+        cght.setBlockNumber(blockNumber);
+        cght.setBlockName(blockName);
+        cght.setNote(note);
+        cght.setSupplierName(supplierName);
+        cght.setSupplierCode(supplierCode);
+        cght.setCountry(country);
+        cght.setSupplierClassify(supplierClassify);
+        cght.setIsQualifiedSupplier(isQualifiedSupplier);
+        cght.setIsinUnitCompany(isInUnitCompany);
+        cght.setPurchaseOrgForm(purchaseOrgForm);
+        cght.setPurchaseWay(purchaseWay);
+        cght.setBudgetTypes(budgetTypes);
+        cght.setInvestmentBudget(investmentBudget);
+        cght.setEvaluationMethod(evaluationMethod);
+        cght.setTechnicalWeight(technicalWeight);
+        cght.setBusinessWeight(businessWeight);
+        cght.setInvitationDate(invitationDate);
+        cght.setOpeningDate(openingDate);
+        cght.setStartTime(startTime);
+        cght.setEndTime(endTime);
+        cght.setFulfillmentPlace(fulfillmentPlace);
+        cght.setPerformanceGuarantee(performanceGuarantee);
+        cght.setContKeepStatus(contKeepStatus);
+        cght.setPerformanceStage(performanceStage);
+        cght.setInstructions(instructions);
+        cght.setSupplierEvaluation(supplierEvaluation);
+        cght.setWhetherToChange(whetherToChange);
+        cght.setChangeOfSubsidiary(changeOfSubsidiary);
+        cght.setProcurementPlatform(procurementPlatform);
+        //个性化设置
+        cght.setCompanyCode("01-0126-01-0126-C3940");//
+        cght.setCreateBy("CETCBW");
+        cght.setTenantCode("BWGS");
+        cght.setUploadFlag(0);
+        return handleTranslateContract(cght);
+    }
+
+    /**
+     * 获取处理后的单个销售合同
+     * @param cRow
+     * @param contractType
+     * @return
+     */
     static SellContract getSingleSellContract(XSSFRow cRow,String contractType)
     {
         SellContract sellContract=new SellContract();
@@ -77,52 +258,36 @@ public class ContractUtil {
         String contractRemark=null;//合同备注说明
         contractName=cRow.getCell(0).getStringCellValue();
         contractCode=cRow.getCell(1).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(2).getStringCellValue()))
-            contractSecretLev=cRow.getCell(2).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(3).getStringCellValue()))
-            contractOwner=cRow.getCell(3).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(3).getStringCellValue()))
-            contractOwner=cRow.getCell(3).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(4).getStringCellValue()))
-            ownerUnifyCode=cRow.getCell(4).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(5).getStringCellValue()))
-            ownerClassify=cRow.getCell(5).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(6).getStringCellValue()))
-            contractPartyB=cRow.getCell(6).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(7).getStringCellValue()))
-            partyBUnifyCode=cRow.getCell(7).getStringCellValue();
-        if(cRow.getCell(8).getNumericCellValue()>0)
-        {
-            contractAmount=new BigDecimal(cRow.getCell(8).getNumericCellValue());
-        }
-        if(StringUtils.isNotEmpty(cRow.getCell(9).getStringCellValue()))
-            currency=cRow.getCell(9).getStringCellValue();
-        if(cRow.getCell(10).getNumericCellValue()>0)
+        contractSecretLev= (String)getCellValueByCell(cRow.getCell(2));
+        contractOwner=(String)getCellValueByCell(cRow.getCell(3));
+        ownerUnifyCode=(String)getCellValueByCell(cRow.getCell(4));
+        ownerClassify=(String)getCellValueByCell(cRow.getCell(5));
+        contractPartyB=(String)getCellValueByCell(cRow.getCell(6));
+        partyBUnifyCode=(String)getCellValueByCell(cRow.getCell(7));
+        if(getCellValueByCell(cRow.getCell(8))!=null)
+        contractAmount=new BigDecimal(cRow.getCell(8).getNumericCellValue());
+            currency=(String)getCellValueByCell(cRow.getCell(9));
+        if(getCellValueByCell(cRow.getCell(10))!=null)
         {
             exchangeRate=new BigDecimal(cRow.getCell(10).getNumericCellValue());
         }
-        if(cRow.getCell(11).getDateCellValue()!=null)
+        if(getCellValueByCell(cRow.getCell(11))!=null)
         {
             signTime=cRow.getCell(11).getDateCellValue();
         }
-        if(cRow.getCell(12).getDateCellValue()!=null)
+        if(getCellValueByCell(cRow.getCell(12))!=null)
         {
             startTime=cRow.getCell(12).getDateCellValue();
         }
-        if(cRow.getCell(13).getDateCellValue()!=null)
+        if(getCellValueByCell(cRow.getCell(13))!=null)
         {
             endTime=cRow.getCell(13).getDateCellValue();
         }
-        if(StringUtils.isNotEmpty(cRow.getCell(14).getStringCellValue()))
-            fourPlate=cRow.getCell(14).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(15).getStringCellValue()))
-            coreBusinessClass=cRow.getCell(15).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(16).getStringCellValue()))
-            projectCode=cRow.getCell(16).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(17).getStringCellValue()))
-            groupProjectId=cRow.getCell(17).getStringCellValue();
-        if(StringUtils.isNotEmpty(cRow.getCell(18).getStringCellValue()))
-            contractRemark=cRow.getCell(18).getStringCellValue();
+            fourPlate=(String)getCellValueByCell(cRow.getCell(14));
+            coreBusinessClass=(String)getCellValueByCell(cRow.getCell(15));
+            projectCode=(String)getCellValueByCell(cRow.getCell(16));
+            groupProjectId=(String)getCellValueByCell(cRow.getCell(17));
+            contractRemark=(String)getCellValueByCell(cRow.getCell(18));
         //实例化基础属性
         sellContract.setContractCode(contractCode);
         sellContract.setContractName(contractName);
@@ -144,58 +309,52 @@ public class ContractUtil {
         sellContract.setProjectCode(projectCode);
         sellContract.setGroupProjectId(groupProjectId);
         sellContract.setOwnerUnifyCode(ownerUnifyCode);
+
+        sellContract.setCompanyCode("01-0126-01-0126-C3940");//
+        sellContract.setCreateBy("CETCBW");
+        sellContract.setTenantCode("BWGS");
+        sellContract.setUploadFlag(0);
+
         //区分合同类型，进行处理
         if(contractType.equals(ContractEnum.JPHT.type))
         {
-            if(StringUtils.isNotEmpty(cRow.getCell(19).getStringCellValue()))
-                sellContract.setArmyClass2(cRow.getCell(19).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(20).getStringCellValue()))
-                sellContract.setChargeArmyOffice(cRow.getCell(20).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(21).getStringCellValue()))
-                sellContract.setProductType(cRow.getCell(21).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(22).getStringCellValue()))
-                sellContract.setMakeType(cRow.getCell(22).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(23).getStringCellValue()))
-                sellContract.setProfessionalField(cRow.getCell(23).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(24).getStringCellValue()))
-                sellContract.setIsGreatNewCont(cRow.getCell(24).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(25).getStringCellValue()))
-                sellContract.setIsGreatProject(cRow.getCell(25).getStringCellValue());
+                sellContract.setArmyClass2((String)getCellValueByCell(cRow.getCell(19)));
+                sellContract.setChargeArmyOffice((String)getCellValueByCell(cRow.getCell(20)));
+                sellContract.setProductType((String)getCellValueByCell(cRow.getCell(21)));
+                sellContract.setMakeType((String)getCellValueByCell(cRow.getCell(22)));
+                sellContract.setProfessionalField((String)getCellValueByCell(cRow.getCell(23)));
+                sellContract.setIsGreatNewCont((String)getCellValueByCell(cRow.getCell(24)));
+                sellContract.setIsGreatProject((String)getCellValueByCell(cRow.getCell(25)));
         }
         else if(contractType.equals(ContractEnum.GJHCJ.type)||contractType.equals(ContractEnum.GJHSX.type))
         {
-            if(StringUtils.isNotEmpty(cRow.getCell(19).getStringCellValue()))
-                sellContract.setChannel(cRow.getCell(19).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(20).getStringCellValue()))
-                sellContract.setImpExpTrade(cRow.getCell(20).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(21).getStringCellValue()))
-                sellContract.setClassifyOne(cRow.getCell(21).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(22).getStringCellValue()))
-                sellContract.setClassifyTwo(cRow.getCell(22).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(23).getStringCellValue()))
-                sellContract.setClassifyThree(cRow.getCell(23).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(24).getStringCellValue()))
-                sellContract.setNationality(cRow.getCell(24).getStringCellValue());
+                sellContract.setChannel((String)getCellValueByCell(cRow.getCell(19)));
+                sellContract.setImpExpTrade((String)getCellValueByCell(cRow.getCell(20)));
+                sellContract.setClassifyOne((String)getCellValueByCell(cRow.getCell(21)));
+                sellContract.setClassifyTwo((String)getCellValueByCell(cRow.getCell(22)));
+                sellContract.setClassifyThree((String)getCellValueByCell(cRow.getCell(23)));
+                sellContract.setNationality((String)getCellValueByCell(cRow.getCell(24)));
         }
         else if(contractType.equals(ContractEnum.KJCX.type))
         {
-            if(StringUtils.isNotEmpty(cRow.getCell(19).getStringCellValue()))
-                sellContract.setTechEarnings(cRow.getCell(19).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(20).getStringCellValue()))
-                sellContract.setSciTechClassify(cRow.getCell(20).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(21).getStringCellValue()))
-                sellContract.setTechnicalB(cRow.getCell(21).getStringCellValue());
-            if(StringUtils.isNotEmpty(cRow.getCell(22).getStringCellValue()))
-                sellContract.setTechnicalB2(cRow.getCell(22).getStringCellValue());
+                sellContract.setTechEarnings((String)getCellValueByCell(cRow.getCell(19)));
+                sellContract.setSciTechClassify((String)getCellValueByCell(cRow.getCell(20)));
+                sellContract.setTechnicalB((String)getCellValueByCell(cRow.getCell(21)));
+                sellContract.setTechnicalB2((String)getCellValueByCell(cRow.getCell(22)));
         }
         else if(contractType.equals(ContractEnum.MPHT.type))
         {
-            if(StringUtils.isNotEmpty(cRow.getCell(19).getStringCellValue()))
-                sellContract.setIndustryClassify(cRow.getCell(19).getStringCellValue());
+                sellContract.setIndustryClassify((String)getCellValueByCell(cRow.getCell(19)));
         }
         return handleTranslateContract(sellContract);
     }
 
+
+    /**
+     * 处理销售合同Value-->Code
+     * @param originContract
+     * @return
+     */
     public static SellContract handleTranslateContract(SellContract originContract){
         SellContract newContract=originContract;
         //合同密级转换
@@ -208,7 +367,12 @@ public class ContractUtil {
         //甲方分类转换
         if(StringUtils.isNotEmpty(originContract.getOwnerClassify())) {
             String oldOwnerClassify=originContract.getOwnerClassify();
-            String newOwnerClassify = DicUtil.getItemCode(MenuCodeEnum.JFFL, oldOwnerClassify, "");
+            String newOwnerClassify =oldOwnerClassify;
+            if(originContract.getTheirBusiness().equals(ContractEnum.JPHT.type))
+                newOwnerClassify=DicUtil.getItemCode(MenuCodeEnum.JFFLJP1, oldOwnerClassify, "");
+            else
+                newOwnerClassify=DicUtil.getItemCode(MenuCodeEnum.JFFLJP2, oldOwnerClassify, "");
+
             newContract.setOwnerClassify(newOwnerClassify);
             logger.info("OwnerClassify Change, From: "+oldOwnerClassify+" To: "+newOwnerClassify);
         }
@@ -360,13 +524,18 @@ public class ContractUtil {
         //行业分类转换
         if(StringUtils.isNotEmpty(originContract.getIndustryClassify())) {
             String oldIndustryClassify=originContract.getIndustryClassify();
-            String newIndustryClassify = DicUtil.getItemCode(MenuCodeEnum.JSSY2, oldIndustryClassify, "");
+            String newIndustryClassify = DicUtil.getItemCode(MenuCodeEnum.HYFL, oldIndustryClassify, ">");
             newContract.setIndustryClassify(newIndustryClassify);
             logger.info("IndustryClassify Change, From: "+oldIndustryClassify+" To: "+newIndustryClassify);
         }
         return newContract;
     }
 
+    /**
+     * 处理单条采购合同Value-->Code
+     * @param originContract
+     * @return
+     */
     public static PurchaseContract handleTranslateContract(PurchaseContract originContract){
         PurchaseContract newContract=originContract;
 
@@ -525,5 +694,42 @@ public class ContractUtil {
         }
 
         return newContract;
+    }
+
+    /**
+     * 处理EXCEL单元格
+     * @param cell
+     * @return
+     */
+    private static Object getCellValueByCell(Cell cell) {
+
+        //判断是否为null或空串
+        if (cell==null || cell.toString().trim().equals("")) {
+            return null;
+        }
+        String cellValue = "";
+        int cellType=cell.getCellType();
+        if(cellType==Cell.CELL_TYPE_FORMULA){ //表达式类型
+            cellType=evaluator.evaluate(cell).getCellType();
+        }
+        switch (cellType) {
+            case Cell.CELL_TYPE_STRING: //字符串类型
+                cellValue= cell.getStringCellValue().trim();
+                cellValue= StringUtils.isEmpty(cellValue) ? "" : cellValue;
+                break;
+            case Cell.CELL_TYPE_BOOLEAN:  //布尔类型
+                cellValue = String.valueOf(cell.getBooleanCellValue());
+                break;
+            case Cell.CELL_TYPE_NUMERIC: //数值类型
+                if (HSSFDateUtil.isCellDateFormatted(cell)) {  //判断日期类型
+                    return cell.getDateCellValue();
+                } else {  //否，数值类型
+                    return cell.getNumericCellValue();
+                }
+            default: //其它类型，返回null
+                cellValue = null;
+                break;
+        }
+        return cellValue;
     }
 }
