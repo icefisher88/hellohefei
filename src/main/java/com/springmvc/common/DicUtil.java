@@ -1,29 +1,90 @@
 package com.springmvc.common;
 
 import com.springmvc.dao.ContractDicMapper;
+import com.springmvc.dao.ContractUserMapper;
 import com.springmvc.entity.ContractDic;
+import com.springmvc.entity.ContractUser;
 import com.springmvc.entity.PurchaseContract;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 @Component
 public  class DicUtil {
+
     @Autowired
     private ContractDicMapper mapper;
+    @Autowired
+    private ContractUserMapper mapper2;
+    static Logger logger = Logger.getLogger(DicUtil.class.getName ()) ;
     private static List<ContractDic> dics;
+    private static List<ContractUser> users;
+    private static Properties props;
     public static  DicUtil dicUtil;
     @PostConstruct
     public void init(){
         dicUtil=this;
         dics=dicUtil.mapper.selectAllDics();
-        System.out.println("begin initalize contract_dic data.....");
+        users=dicUtil.mapper2.getAllContractUserInfo();
+
+       logger.info("begin initalize contract_dic data.....");
+    }
+    static {
+        loadProps();
+    }
+
+    synchronized private static  void loadProps(){
+        logger.info("开始加载properties文件内容.......");
+        props=new Properties();
+        InputStream in=null;
+        try{
+            in=DicUtil.class.getClassLoader().getResourceAsStream("jdbc.properties");
+            props.load(in);
+        } catch (IOException e) {
+            logger.error("加载properties文件内容失败");
+            e.printStackTrace();
+        }
+        finally {
+            if(null!=in)
+            {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    logger.error("jdbc.properties文件流关闭出现异常");
+                }
+            }
+        }
+    }
+
+    public static String getProperty(String key){
+        if(null==props)
+        {
+            logger.warn("未初始化properties 文件，开始初始化......");
+            loadProps();
+        }
+        return props.getProperty(key);
+    }
+    public static ContractUser getUserInfoByCode(String code)
+    {
+        for(int i=0;i<users.size();i++)
+        {
+            if(users.get(i).getUserCode().equals(code))
+            {
+                return users.get(i);
+            }
+        }
+        return null;
     }
     public static  List<ContractDic> getContractDics(){
        return  dicUtil.mapper.selectAllDics();
