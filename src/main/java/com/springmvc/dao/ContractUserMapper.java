@@ -13,6 +13,8 @@ public interface ContractUserMapper {
 
     ContractUser selectByPrimaryKey(Integer userId);
 
+    ContractUser selectByUserCode(String userCode);
+
     int updateByPrimaryKeySelective(ContractUser record);
 
     int updateByPrimaryKey(ContractUser record);

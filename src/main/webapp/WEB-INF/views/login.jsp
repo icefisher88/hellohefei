@@ -11,9 +11,9 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<META http-equiv=Content-Type CONTENT="text/html; charset=gbk" />
-		<TITLE></TITLE>
-		<LINK HREF="style/blue/login.css" type=text/css rel=stylesheet />
+		<META http-equiv=Content-Type CONTENT="text/html; charset=utf8" />
+		<TITLE>登录</TITLE>
+		<LINK HREF="/css/login.css" type=text/css rel=stylesheet />
 	</HEAD>
 
 	<BODY LEFTMARGIN=0 TOPMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0
@@ -22,25 +22,26 @@
 			<DIV ID="CenterAreaBg">
 				<DIV ID="CenterArea">
 					<DIV ID="LogoImg">
-						<IMG BORDER="0" SRC="style/blue/images/logo.png" />
+<%--						<IMG BORDER="0" SRC="style/blue/images/logo.png" />--%>
+						合同数据平台
 					</DIV>
 					<DIV ID="LoginInfo">
 						<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 width=100%>
 							<TR>
 								<TD width=45 CLASS="Subject">
-									<IMG BORDER="0" SRC="style/blue/images/login/userId.gif" />
+									<IMG BORDER="0" SRC="/images/login/userId.gif" />
 								</TD>
 								<TD>
 									<INPUT SIZE="20" CLASS="TextField" TYPE="text" NAME="j_username" />
 								</TD>
 								<TD ROWSPAN="2" STYLE="padding-left: 10px;">
 									<INPUT TYPE="image"
-										SRC="style/blue/images/login/userLogin_button.gif" />
+										SRC="/images/login/userLogin_button.gif" />
 								</TD>
 							</TR>
 							<TR>
 								<TD CLASS="Subject">
-									<IMG BORDER="0" SRC="style/blue/images/login/password.gif" />
+									<IMG BORDER="0" SRC="/images/login/password.gif" />
 								</TD>
 								<TD>
 									<INPUT SIZE="20" CLASS="TextField" TYPE="password"

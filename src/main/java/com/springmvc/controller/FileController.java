@@ -4,6 +4,8 @@ import com.springmvc.dao.UploadfileMapper;
 import com.springmvc.entity.Uploadfile;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,11 @@ public class FileController {
         System.out.println("hello,upload");
 //        List<Uploadfile> files=mapper.getAllUploadFiles();
 //        modelAndView.addObject("files",files);
+        Object principal= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails)
+        {
+            System.out.println("hello,"+SecurityContextHolder.getContext().getAuthentication().getName());
+        }
         return modelAndView;
     }
     @RequestMapping("/showFileList")
