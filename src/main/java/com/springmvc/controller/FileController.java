@@ -87,7 +87,7 @@ public class FileController {
         ModelAndView modelAndView=new ModelAndView();
         ModelMap modelResult=new ModelMap();
         String targetDir=request.getSession().getServletContext().getRealPath("uploads");
-//        System.out.println("the targetDir is:"+targetDir);
+        System.out.println("the targetDir is:"+targetDir);
         String tmpFileName=tmpFile.getOriginalFilename();
         int dot=tmpFileName.lastIndexOf(".");
         String ext="";

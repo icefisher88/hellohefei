@@ -4,13 +4,9 @@ import com.springmvc.dao.ContractDicMapper;
 import com.springmvc.dao.ContractUserMapper;
 import com.springmvc.entity.ContractDic;
 import com.springmvc.entity.ContractUser;
-import com.springmvc.entity.PurchaseContract;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
