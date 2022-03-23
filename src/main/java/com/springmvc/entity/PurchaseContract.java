@@ -110,6 +110,10 @@ public class PurchaseContract {
 
     private Integer uploadFlag;
 
+    private Date uploadTime;
+
+    private Date insertTime;
+
     public Integer getContractid() {
         return contractid;
     }
@@ -532,5 +536,21 @@ public class PurchaseContract {
 
     public void setUploadFlag(Integer uploadFlag) {
         this.uploadFlag = uploadFlag;
+    }
+
+    public Date getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(Date uploadTime) {
+        this.uploadTime = uploadTime;
+    }
+
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 }

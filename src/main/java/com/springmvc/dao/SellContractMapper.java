@@ -16,14 +16,8 @@ public interface SellContractMapper {
     int updateByPrimaryKeySelective(SellContract record);
 
     int updateByPrimaryKey(SellContract record);
-    //获取所有合同
+    //获取所有销售合同
     List<SellContract> getAllSellContract();
-    //获取所有未推送合同
-    List<SellContract> getAllUnuploadSellContract();
-    //获取所有已推送合同
-    List<SellContract> getAllUploadedSellContract();
-    //获取所有推送失败合同
-    List<SellContract> getAllUploadFailedSellContract();
-    //合同推送后更新推送状态
-    int updateSCUploadFlagByPrimaryKey(SellContract record);
+    //根据合同类型、推送状态查询合同
+    public List<SellContract> getAllSellContractByType(int queryType, String queryContractType);
 }

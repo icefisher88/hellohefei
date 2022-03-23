@@ -1,7 +1,7 @@
 package com.springmvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springmvc.common.Singleton;
+import com.springmvc.common.DicUtil;
 import com.springmvc.dao.SellContractMapper;
 import com.springmvc.entity.SellContract;
 import net.sf.json.JSONObject;
@@ -101,7 +101,7 @@ public class SellContractController {
     public String getToken(){
         //创建get请求
         HttpClient client = new HttpClient();
-        GetMethod method = new GetMethod(Singleton.getInstance().uploadURL+"/LesCont/token/getToken?key=20dd1883e16c4a1bb4e248a278bdeead");
+        GetMethod method = new GetMethod(DicUtil.getProperty("url") +"/LesCont/token/getToken?key="+DicUtil.getProperty("key"));
         JSONObject jsonResult = null;
         String token = null;
         try{
@@ -130,7 +130,7 @@ public class SellContractController {
         int responseCode = 0;
         //创建POST请求
         HttpClient client = new HttpClient();
-        PostMethod method = new PostMethod(Singleton.getInstance().uploadURL+"/LesCont/api/sellcont/insert");
+        PostMethod method = new PostMethod(DicUtil.getProperty("url")+"/LesCont/api/sellcont/insert");
         //设置请求头
         method.setRequestHeader("ContentType","application/json");
         method.setRequestHeader("token",token);

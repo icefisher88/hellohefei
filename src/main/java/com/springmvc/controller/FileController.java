@@ -1,8 +1,15 @@
 package com.springmvc.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.springmvc.common.ContractUtil;
+import com.springmvc.dao.PurchaseContractMapper;
+import com.springmvc.dao.SellContractMapper;
 import com.springmvc.dao.UploadfileMapper;
+import com.springmvc.entity.PurchaseContract;
+import com.springmvc.entity.SellContract;
 import com.springmvc.entity.Uploadfile;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +36,11 @@ public class FileController {
 //    }
     @Autowired
     private UploadfileMapper mapper=null;
+    @Autowired
+    private PurchaseContractMapper purMapper=null;
+    @Autowired
+    private SellContractMapper sellMapper=null;
+
     @RequestMapping("/upload")
     public ModelAndView upload()
     {
@@ -63,6 +75,8 @@ public class FileController {
         result.put("result","success");
         return result;
     }
+
+
 
     @RequestMapping(value="/upload/delRow",method= RequestMethod.GET)
     @ResponseBody
@@ -158,6 +172,84 @@ public class FileController {
         }
         return FileSize;
     }
+    @RequestMapping(value = "/importContract",method = RequestMethod.GET)
+//    public ModelAndView importContract(){
+//        ModelAndView modelAndView=new ModelAndView();
+//        return modelAndView;
+//    }
+    public String importContract(){
+        return "importContract";
+    }
+    @RequestMapping(value="/importContract",method= RequestMethod.POST)
+    public ModelAndView upLoadContractFile(@RequestParam("uploadFile") MultipartFile tmpFile, HttpServletRequest request){
+        ModelAndView modelAndView=new ModelAndView();
+        ModelMap modelResult=new ModelMap();
+        String targetDir=request.getSession().getServletContext().getRealPath("uploads");
+        String docType=request.getParameter("queryContractType");
+        String tmpFileName=tmpFile.getOriginalFilename();
+        int dot=tmpFileName.lastIndexOf(".");
+        String ext="";
+        if((dot>-1)&&(dot<(tmpFileName.length()-1)))
+        {
+            ext=tmpFileName.substring(dot+1);
+        }
+        if("xlsx".equalsIgnoreCase(ext)){
+            String newFileName=renameFileName(tmpFileName);
+            File targetFile=new File(targetDir,newFileName);
+            try {
+                FileUtils.copyInputStreamToFile(tmpFile.getInputStream(),targetFile);
+                System.out.println("the upload file is:"+targetFile.getAbsolutePath());
+                if(docType==null)//上传采购合同
+                {
+                    List<PurchaseContract> contractList = ContractUtil.importPurchaseContractFromExcel(targetFile);
+                    for(int i=0;i<contractList.size();i++)
+                    {
+                        PurchaseContract contract=contractList.get(i);
+                        System.out.println(JSONArray.toJSON(contract).toString());
+                        //purMapper.insertSelective(contract);
+                    }
+                }
+                else
+                {
+                    List<SellContract> contractList = ContractUtil.importSellContractFromExcel(targetFile, docType);
+                    for(int i=0;i<contractList.size();i++)
+                    {
+                        SellContract contract=contractList.get(i);
+                        System.out.println(JSONArray.toJSON(contract).toString());
+//                        sellMapper.insertSelective(contract);
+                    }
 
+                }
+            } catch (IOException e) {
+                modelAndView.addObject("result","上传文件失败！");
+            } catch (InvalidFormatException e) {
+                modelAndView.addObject("result","解析Excel文件失败！");
+            }
+            finally {
+                if(targetFile!=null){
+                    System.out.println("begin delete tempfile:"+targetFile.getAbsolutePath());
+                    FileUtils.deleteQuietly(targetFile);
+                }
+
+            }
+        }
+        else
+        {
+            modelAndView.addObject("result","上传文件类型不正确！");
+        }
+        if(modelAndView.isEmpty())
+        {
+            modelAndView.addObject("result","上传文件成功！");
+        }
+        if(docType==null)
+        {
+            modelAndView.addObject("checkIndex","1");
+        }
+        else{
+            modelAndView.addObject("checkIndex","2");
+        }
+        System.out.println("importFile finish....");
+        return modelAndView;
+    }
 
 }

@@ -47,7 +47,8 @@
     <result column="industry_classify" property="industryClassify" jdbcType="VARCHAR" />
     <result column="sell_contract_type" property="sellContractType" jdbcType="VARCHAR" />
     <result column="upload_flag" property="uploadFlag" jdbcType="INTEGER" />
-    <result column="upload_time" property="uploadTime" jdbcType="DATE" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     contractid, company_code, contract_code, contract_name, contract_secret_lev, contract_amount, 
@@ -57,7 +58,7 @@
     create_by, tenant_code, is_great_new_cont, army_class2, charge_army_office, product_type, 
     make_type, professional_field, is_great_project, channel, imp_exp_trade, classify_one, 
     classify_two, classify_three, nationality, sci_tech_classify, tech_earnings, technical_b, 
-    technical_b2, industry_classify, sell_contract_type, upload_flag, upload_time
+    technical_b2, industry_classify, sell_contract_type, upload_flag, upload_time, insert_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -65,39 +66,19 @@
     from sell_contract
     where contractid = #{contractid,jdbcType=INTEGER}
   </select>
-<!--  获取所有销售合同-->
+  <!--  获取所有销售合同-->
   <select id="getAllSellContract" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sell_contract
   </select>
-<!-- 获取所有未推送合同 -->
-  <select id="getAllUnuploadSellContract" resultMap="BaseResultMap">
+  <!-- 根据销售合同推送状态和合同类型搜索销售合同 -->
+  <select id="getAllSellContractByType" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sell_contract
-    where upload_flag = 0
+    where upload_flag = #{0} and their_business = #{1}
   </select>
-  <!-- 获取所有已推送合同 -->
-  <select id="getAllUploadedSellContract" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sell_contract
-    where upload_flag = 1
-  </select>
-  <!-- 获取所有推送失败合同 -->
-  <select id="getAllUploadFailedSellContract" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sell_contract
-    where upload_flag = 2
-  </select>
-<!--  更新合同推送状态-->
-  <update id="updateSCUploadFlagByPrimaryKey" parameterType="com.springmvc.entity.PurchaseContract">
-    update sell_contract
-    set upload_flg = #{uploadFlg,jdbcType=INTEGER}
-    where  contractid = #{contractid,jdbcType=INTEGER}
-  </update>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sell_contract
     where contractid = #{contractid,jdbcType=INTEGER}
@@ -118,10 +99,10 @@
       classify_three, nationality, sci_tech_classify, 
       tech_earnings, technical_b, technical_b2, 
       industry_classify, sell_contract_type, upload_flag, 
-      upload_time)
+      upload_time, insert_time)
     values (#{contractid,jdbcType=INTEGER}, #{companyCode,jdbcType=VARCHAR}, #{contractCode,jdbcType=VARCHAR}, 
       #{contractName,jdbcType=VARCHAR}, #{contractSecretLev,jdbcType=VARCHAR}, #{contractAmount,jdbcType=DECIMAL}, 
-      #{currency,jdbcType=VARCHAR}, #{exchangeRate,jdbcType=DECIMAL}, #{signTime,jdbcType=DATE},
+      #{currency,jdbcType=VARCHAR}, #{exchangeRate,jdbcType=DECIMAL}, #{signTime,jdbcType=DATE}, 
       #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{contractOwner,jdbcType=VARCHAR}, 
       #{ownerUnifyCode,jdbcType=VARCHAR}, #{ownerClassify,jdbcType=VARCHAR}, #{contractPartyB,jdbcType=VARCHAR}, 
       #{partyBUnifyCode,jdbcType=VARCHAR}, #{contractText,jdbcType=VARCHAR}, #{contractRemark,jdbcType=VARCHAR}, 
@@ -134,7 +115,7 @@
       #{classifyThree,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, #{sciTechClassify,jdbcType=VARCHAR}, 
       #{techEarnings,jdbcType=VARCHAR}, #{technicalB,jdbcType=VARCHAR}, #{technicalB2,jdbcType=VARCHAR}, 
       #{industryClassify,jdbcType=VARCHAR}, #{sellContractType,jdbcType=VARCHAR}, #{uploadFlag,jdbcType=INTEGER}, 
-      #{uploadTime,jdbcType=DATE})
+      #{uploadTime,jdbcType=TIMESTAMP}, #{insertTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.springmvc.entity.SellContract" >
     insert into sell_contract
@@ -277,6 +258,9 @@
       <if test="uploadTime != null" >
         upload_time,
       </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="contractid != null" >
@@ -415,7 +399,10 @@
         #{uploadFlag,jdbcType=INTEGER},
       </if>
       <if test="uploadTime != null" >
-        #{uploadTime,jdbcType=DATE},
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -555,7 +542,10 @@
         upload_flag = #{uploadFlag,jdbcType=INTEGER},
       </if>
       <if test="uploadTime != null" >
-        upload_time = #{uploadTime,jdbcType=DATE},
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where contractid = #{contractid,jdbcType=INTEGER}
@@ -606,7 +596,8 @@
       industry_classify = #{industryClassify,jdbcType=VARCHAR},
       sell_contract_type = #{sellContractType,jdbcType=VARCHAR},
       upload_flag = #{uploadFlag,jdbcType=INTEGER},
-      upload_time = #{uploadTime,jdbcType=DATE}
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP}
     where contractid = #{contractid,jdbcType=INTEGER}
   </update>
 </mapper>

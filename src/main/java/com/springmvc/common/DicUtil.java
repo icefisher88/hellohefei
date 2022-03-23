@@ -45,7 +45,7 @@ public  class DicUtil {
         props=new Properties();
         InputStream in=null;
         try{
-            in=DicUtil.class.getClassLoader().getResourceAsStream("jdbc.properties");
+            in=DicUtil.class.getClassLoader().getResourceAsStream("systemConfig.properties");
             props.load(in);
         } catch (IOException e) {
             logger.error("加载properties文件内容失败");

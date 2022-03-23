@@ -96,6 +96,8 @@ public class SellContract {
 
     private Date uploadTime;
 
+    private Date insertTime;
+
     public Integer getContractid() {
         return contractid;
     }
@@ -462,5 +464,13 @@ public class SellContract {
 
     public void setUploadTime(Date uploadTime) {
         this.uploadTime = uploadTime;
+    }
+
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 }

@@ -1,62 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.springmvc.dao.PurchaseContractMapper">
-  <resultMap id="BaseResultMap" type="com.springmvc.entity.PurchaseContract">
-    <id column="contractid" jdbcType="INTEGER" property="contractid" />
-    <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
-    <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
-    <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
-    <result column="contract_secret_lev" jdbcType="VARCHAR" property="contractSecretLev" />
-    <result column="purchaser_name" jdbcType="VARCHAR" property="purchaserName" />
-    <result column="purchaser_code" jdbcType="VARCHAR" property="purchaserCode" />
-    <result column="cont_keep_status" jdbcType="VARCHAR" property="contKeepStatus" />
-    <result column="capital_source" jdbcType="VARCHAR" property="capitalSource" />
-    <result column="pricing_manner" jdbcType="VARCHAR" property="pricingManner" />
-    <result column="technical_weight" jdbcType="VARCHAR" property="technicalWeight" />
-    <result column="business_weight" jdbcType="VARCHAR" property="businessWeight" />
-    <result column="pay_way" jdbcType="VARCHAR" property="payWay" />
-    <result column="purchase_way" jdbcType="VARCHAR" property="purchaseWay" />
-    <result column="purchase_org_form" jdbcType="VARCHAR" property="purchaseOrgForm" />
-    <result column="framework_agreement" jdbcType="VARCHAR" property="frameworkAgreement" />
-    <result column="procurement_platform" jdbcType="VARCHAR" property="procurementPlatform" />
-    <result column="contract_amount" jdbcType="DECIMAL" property="contractAmount" />
-    <result column="currency" jdbcType="VARCHAR" property="currency" />
-    <result column="exchange_rate" jdbcType="DECIMAL" property="exchangeRate" />
-    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
-    <result column="sign_time" jdbcType="DATE" property="signTime" />
-    <result column="effective_date" jdbcType="DATE" property="effectiveDate" />
-    <result column="start_time" jdbcType="DATE" property="startTime" />
-    <result column="end_time" jdbcType="DATE" property="endTime" />
-    <result column="fulfillment_place" jdbcType="VARCHAR" property="fulfillmentPlace" />
-    <result column="contract_text" jdbcType="VARCHAR" property="contractText" />
-    <result column="supplier_evaluation" jdbcType="VARCHAR" property="supplierEvaluation" />
-    <result column="tender" jdbcType="VARCHAR" property="tender" />
-    <result column="block_number" jdbcType="VARCHAR" property="blockNumber" />
-    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
-    <result column="investment_budget" jdbcType="DECIMAL" property="investmentBudget" />
-    <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="country" jdbcType="VARCHAR" property="country" />
-    <result column="budget_types" jdbcType="VARCHAR" property="budgetTypes" />
-    <result column="evaluation_method" jdbcType="VARCHAR" property="evaluationMethod" />
-    <result column="invitation_date" jdbcType="DATE" property="invitationDate" />
-    <result column="opening_date" jdbcType="DATE" property="openingDate" />
-    <result column="bidding_documents" jdbcType="VARCHAR" property="biddingDocuments" />
-    <result column="performance_guarantee" jdbcType="VARCHAR" property="performanceGuarantee" />
-    <result column="performance_stage" jdbcType="VARCHAR" property="performanceStage" />
-    <result column="instructions" jdbcType="VARCHAR" property="instructions" />
-    <result column="whether_to_change" jdbcType="VARCHAR" property="whetherToChange" />
-    <result column="change_of_subsidiary" jdbcType="VARCHAR" property="changeOfSubsidiary" />
-    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
-    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
-    <result column="supplier_classify" jdbcType="VARCHAR" property="supplierClassify" />
-    <result column="is_qualified_supplier" jdbcType="VARCHAR" property="isQualifiedSupplier" />
-    <result column="isIn_unit_company" jdbcType="VARCHAR" property="isinUnitCompany" />
-    <result column="contract_status" jdbcType="VARCHAR" property="contractStatus" />
-    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
-    <result column="tenant_code" jdbcType="VARCHAR" property="tenantCode" />
-    <result column="upload_flag" jdbcType="INTEGER" property="uploadFlag" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springmvc.dao.PurchaseContractMapper" >
+  <resultMap id="BaseResultMap" type="com.springmvc.entity.PurchaseContract" >
+    <id column="contractid" property="contractid" jdbcType="INTEGER" />
+    <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
+    <result column="contract_code" property="contractCode" jdbcType="VARCHAR" />
+    <result column="contract_name" property="contractName" jdbcType="VARCHAR" />
+    <result column="contract_secret_lev" property="contractSecretLev" jdbcType="VARCHAR" />
+    <result column="purchaser_name" property="purchaserName" jdbcType="VARCHAR" />
+    <result column="purchaser_code" property="purchaserCode" jdbcType="VARCHAR" />
+    <result column="cont_keep_status" property="contKeepStatus" jdbcType="VARCHAR" />
+    <result column="capital_source" property="capitalSource" jdbcType="VARCHAR" />
+    <result column="pricing_manner" property="pricingManner" jdbcType="VARCHAR" />
+    <result column="technical_weight" property="technicalWeight" jdbcType="VARCHAR" />
+    <result column="business_weight" property="businessWeight" jdbcType="VARCHAR" />
+    <result column="pay_way" property="payWay" jdbcType="VARCHAR" />
+    <result column="purchase_way" property="purchaseWay" jdbcType="VARCHAR" />
+    <result column="purchase_org_form" property="purchaseOrgForm" jdbcType="VARCHAR" />
+    <result column="framework_agreement" property="frameworkAgreement" jdbcType="VARCHAR" />
+    <result column="procurement_platform" property="procurementPlatform" jdbcType="VARCHAR" />
+    <result column="contract_amount" property="contractAmount" jdbcType="DECIMAL" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="exchange_rate" property="exchangeRate" jdbcType="DECIMAL" />
+    <result column="tax_rate" property="taxRate" jdbcType="DECIMAL" />
+    <result column="sign_time" property="signTime" jdbcType="DATE" />
+    <result column="effective_date" property="effectiveDate" jdbcType="DATE" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="fulfillment_place" property="fulfillmentPlace" jdbcType="VARCHAR" />
+    <result column="contract_text" property="contractText" jdbcType="VARCHAR" />
+    <result column="supplier_evaluation" property="supplierEvaluation" jdbcType="VARCHAR" />
+    <result column="tender" property="tender" jdbcType="VARCHAR" />
+    <result column="block_number" property="blockNumber" jdbcType="VARCHAR" />
+    <result column="block_name" property="blockName" jdbcType="VARCHAR" />
+    <result column="investment_budget" property="investmentBudget" jdbcType="DECIMAL" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="budget_types" property="budgetTypes" jdbcType="VARCHAR" />
+    <result column="evaluation_method" property="evaluationMethod" jdbcType="VARCHAR" />
+    <result column="invitation_date" property="invitationDate" jdbcType="DATE" />
+    <result column="opening_date" property="openingDate" jdbcType="DATE" />
+    <result column="bidding_documents" property="biddingDocuments" jdbcType="VARCHAR" />
+    <result column="performance_guarantee" property="performanceGuarantee" jdbcType="VARCHAR" />
+    <result column="performance_stage" property="performanceStage" jdbcType="VARCHAR" />
+    <result column="instructions" property="instructions" jdbcType="VARCHAR" />
+    <result column="whether_to_change" property="whetherToChange" jdbcType="VARCHAR" />
+    <result column="change_of_subsidiary" property="changeOfSubsidiary" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="supplier_classify" property="supplierClassify" jdbcType="VARCHAR" />
+    <result column="is_qualified_supplier" property="isQualifiedSupplier" jdbcType="VARCHAR" />
+    <result column="isIn_unit_company" property="isinUnitCompany" jdbcType="VARCHAR" />
+    <result column="contract_status" property="contractStatus" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="tenant_code" property="tenantCode" jdbcType="VARCHAR" />
+    <result column="upload_flag" property="uploadFlag" jdbcType="INTEGER" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     contractid, company_code, contract_code, contract_name, contract_secret_lev, purchaser_name, 
     purchaser_code, cont_keep_status, capital_source, pricing_manner, technical_weight, 
     business_weight, pay_way, purchase_way, purchase_org_form, framework_agreement, procurement_platform, 
@@ -66,19 +68,32 @@
     opening_date, bidding_documents, performance_guarantee, performance_stage, instructions, 
     whether_to_change, change_of_subsidiary, supplier_name, supplier_code, supplier_classify, 
     is_qualified_supplier, isIn_unit_company, contract_status, create_by, tenant_code, 
-    upload_flag
+    upload_flag, upload_time, insert_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from purchase_contract
     where contractid = #{contractid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <!--  搜索所有采购合同-->
+  <select id="getAllPurchaseContract" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from purchase_contract
+  </select>
+  <!--  根据推送状态搜索所有采购合同数据-->
+  <select id="getAllPurchaseContractByType" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from purchase_contract
+    where upload_flag = #{0}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from purchase_contract
     where contractid = #{contractid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.springmvc.entity.PurchaseContract">
+  <insert id="insert" parameterType="com.springmvc.entity.PurchaseContract" >
     insert into purchase_contract (contractid, company_code, contract_code, 
       contract_name, contract_secret_lev, purchaser_name, 
       purchaser_code, cont_keep_status, capital_source, 
@@ -97,7 +112,8 @@
       change_of_subsidiary, supplier_name, supplier_code, 
       supplier_classify, is_qualified_supplier, 
       isIn_unit_company, contract_status, create_by, 
-      tenant_code, upload_flag)
+      tenant_code, upload_flag, upload_time, 
+      insert_time)
     values (#{contractid,jdbcType=INTEGER}, #{companyCode,jdbcType=VARCHAR}, #{contractCode,jdbcType=VARCHAR}, 
       #{contractName,jdbcType=VARCHAR}, #{contractSecretLev,jdbcType=VARCHAR}, #{purchaserName,jdbcType=VARCHAR}, 
       #{purchaserCode,jdbcType=VARCHAR}, #{contKeepStatus,jdbcType=VARCHAR}, #{capitalSource,jdbcType=VARCHAR}, 
@@ -116,496 +132,515 @@
       #{changeOfSubsidiary,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{supplierCode,jdbcType=VARCHAR}, 
       #{supplierClassify,jdbcType=VARCHAR}, #{isQualifiedSupplier,jdbcType=VARCHAR}, 
       #{isinUnitCompany,jdbcType=VARCHAR}, #{contractStatus,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{tenantCode,jdbcType=VARCHAR}, #{uploadFlag,jdbcType=INTEGER})
+      #{tenantCode,jdbcType=VARCHAR}, #{uploadFlag,jdbcType=INTEGER}, #{uploadTime,jdbcType=TIMESTAMP}, 
+      #{insertTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.springmvc.entity.PurchaseContract">
+  <insert id="insertSelective" parameterType="com.springmvc.entity.PurchaseContract" >
     insert into purchase_contract
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="contractid != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contractid != null" >
         contractid,
       </if>
-      <if test="companyCode != null">
+      <if test="companyCode != null" >
         company_code,
       </if>
-      <if test="contractCode != null">
+      <if test="contractCode != null" >
         contract_code,
       </if>
-      <if test="contractName != null">
+      <if test="contractName != null" >
         contract_name,
       </if>
-      <if test="contractSecretLev != null">
+      <if test="contractSecretLev != null" >
         contract_secret_lev,
       </if>
-      <if test="purchaserName != null">
+      <if test="purchaserName != null" >
         purchaser_name,
       </if>
-      <if test="purchaserCode != null">
+      <if test="purchaserCode != null" >
         purchaser_code,
       </if>
-      <if test="contKeepStatus != null">
+      <if test="contKeepStatus != null" >
         cont_keep_status,
       </if>
-      <if test="capitalSource != null">
+      <if test="capitalSource != null" >
         capital_source,
       </if>
-      <if test="pricingManner != null">
+      <if test="pricingManner != null" >
         pricing_manner,
       </if>
-      <if test="technicalWeight != null">
+      <if test="technicalWeight != null" >
         technical_weight,
       </if>
-      <if test="businessWeight != null">
+      <if test="businessWeight != null" >
         business_weight,
       </if>
-      <if test="payWay != null">
+      <if test="payWay != null" >
         pay_way,
       </if>
-      <if test="purchaseWay != null">
+      <if test="purchaseWay != null" >
         purchase_way,
       </if>
-      <if test="purchaseOrgForm != null">
+      <if test="purchaseOrgForm != null" >
         purchase_org_form,
       </if>
-      <if test="frameworkAgreement != null">
+      <if test="frameworkAgreement != null" >
         framework_agreement,
       </if>
-      <if test="procurementPlatform != null">
+      <if test="procurementPlatform != null" >
         procurement_platform,
       </if>
-      <if test="contractAmount != null">
+      <if test="contractAmount != null" >
         contract_amount,
       </if>
-      <if test="currency != null">
+      <if test="currency != null" >
         currency,
       </if>
-      <if test="exchangeRate != null">
+      <if test="exchangeRate != null" >
         exchange_rate,
       </if>
-      <if test="taxRate != null">
+      <if test="taxRate != null" >
         tax_rate,
       </if>
-      <if test="signTime != null">
+      <if test="signTime != null" >
         sign_time,
       </if>
-      <if test="effectiveDate != null">
+      <if test="effectiveDate != null" >
         effective_date,
       </if>
-      <if test="startTime != null">
+      <if test="startTime != null" >
         start_time,
       </if>
-      <if test="endTime != null">
+      <if test="endTime != null" >
         end_time,
       </if>
-      <if test="fulfillmentPlace != null">
+      <if test="fulfillmentPlace != null" >
         fulfillment_place,
       </if>
-      <if test="contractText != null">
+      <if test="contractText != null" >
         contract_text,
       </if>
-      <if test="supplierEvaluation != null">
+      <if test="supplierEvaluation != null" >
         supplier_evaluation,
       </if>
-      <if test="tender != null">
+      <if test="tender != null" >
         tender,
       </if>
-      <if test="blockNumber != null">
+      <if test="blockNumber != null" >
         block_number,
       </if>
-      <if test="blockName != null">
+      <if test="blockName != null" >
         block_name,
       </if>
-      <if test="investmentBudget != null">
+      <if test="investmentBudget != null" >
         investment_budget,
       </if>
-      <if test="note != null">
+      <if test="note != null" >
         note,
       </if>
-      <if test="country != null">
+      <if test="country != null" >
         country,
       </if>
-      <if test="budgetTypes != null">
+      <if test="budgetTypes != null" >
         budget_types,
       </if>
-      <if test="evaluationMethod != null">
+      <if test="evaluationMethod != null" >
         evaluation_method,
       </if>
-      <if test="invitationDate != null">
+      <if test="invitationDate != null" >
         invitation_date,
       </if>
-      <if test="openingDate != null">
+      <if test="openingDate != null" >
         opening_date,
       </if>
-      <if test="biddingDocuments != null">
+      <if test="biddingDocuments != null" >
         bidding_documents,
       </if>
-      <if test="performanceGuarantee != null">
+      <if test="performanceGuarantee != null" >
         performance_guarantee,
       </if>
-      <if test="performanceStage != null">
+      <if test="performanceStage != null" >
         performance_stage,
       </if>
-      <if test="instructions != null">
+      <if test="instructions != null" >
         instructions,
       </if>
-      <if test="whetherToChange != null">
+      <if test="whetherToChange != null" >
         whether_to_change,
       </if>
-      <if test="changeOfSubsidiary != null">
+      <if test="changeOfSubsidiary != null" >
         change_of_subsidiary,
       </if>
-      <if test="supplierName != null">
+      <if test="supplierName != null" >
         supplier_name,
       </if>
-      <if test="supplierCode != null">
+      <if test="supplierCode != null" >
         supplier_code,
       </if>
-      <if test="supplierClassify != null">
+      <if test="supplierClassify != null" >
         supplier_classify,
       </if>
-      <if test="isQualifiedSupplier != null">
+      <if test="isQualifiedSupplier != null" >
         is_qualified_supplier,
       </if>
-      <if test="isinUnitCompany != null">
+      <if test="isinUnitCompany != null" >
         isIn_unit_company,
       </if>
-      <if test="contractStatus != null">
+      <if test="contractStatus != null" >
         contract_status,
       </if>
-      <if test="createBy != null">
+      <if test="createBy != null" >
         create_by,
       </if>
-      <if test="tenantCode != null">
+      <if test="tenantCode != null" >
         tenant_code,
       </if>
-      <if test="uploadFlag != null">
+      <if test="uploadFlag != null" >
         upload_flag,
       </if>
+      <if test="uploadTime != null" >
+        upload_time,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="contractid != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contractid != null" >
         #{contractid,jdbcType=INTEGER},
       </if>
-      <if test="companyCode != null">
+      <if test="companyCode != null" >
         #{companyCode,jdbcType=VARCHAR},
       </if>
-      <if test="contractCode != null">
+      <if test="contractCode != null" >
         #{contractCode,jdbcType=VARCHAR},
       </if>
-      <if test="contractName != null">
+      <if test="contractName != null" >
         #{contractName,jdbcType=VARCHAR},
       </if>
-      <if test="contractSecretLev != null">
+      <if test="contractSecretLev != null" >
         #{contractSecretLev,jdbcType=VARCHAR},
       </if>
-      <if test="purchaserName != null">
+      <if test="purchaserName != null" >
         #{purchaserName,jdbcType=VARCHAR},
       </if>
-      <if test="purchaserCode != null">
+      <if test="purchaserCode != null" >
         #{purchaserCode,jdbcType=VARCHAR},
       </if>
-      <if test="contKeepStatus != null">
+      <if test="contKeepStatus != null" >
         #{contKeepStatus,jdbcType=VARCHAR},
       </if>
-      <if test="capitalSource != null">
+      <if test="capitalSource != null" >
         #{capitalSource,jdbcType=VARCHAR},
       </if>
-      <if test="pricingManner != null">
+      <if test="pricingManner != null" >
         #{pricingManner,jdbcType=VARCHAR},
       </if>
-      <if test="technicalWeight != null">
+      <if test="technicalWeight != null" >
         #{technicalWeight,jdbcType=VARCHAR},
       </if>
-      <if test="businessWeight != null">
+      <if test="businessWeight != null" >
         #{businessWeight,jdbcType=VARCHAR},
       </if>
-      <if test="payWay != null">
+      <if test="payWay != null" >
         #{payWay,jdbcType=VARCHAR},
       </if>
-      <if test="purchaseWay != null">
+      <if test="purchaseWay != null" >
         #{purchaseWay,jdbcType=VARCHAR},
       </if>
-      <if test="purchaseOrgForm != null">
+      <if test="purchaseOrgForm != null" >
         #{purchaseOrgForm,jdbcType=VARCHAR},
       </if>
-      <if test="frameworkAgreement != null">
+      <if test="frameworkAgreement != null" >
         #{frameworkAgreement,jdbcType=VARCHAR},
       </if>
-      <if test="procurementPlatform != null">
+      <if test="procurementPlatform != null" >
         #{procurementPlatform,jdbcType=VARCHAR},
       </if>
-      <if test="contractAmount != null">
+      <if test="contractAmount != null" >
         #{contractAmount,jdbcType=DECIMAL},
       </if>
-      <if test="currency != null">
+      <if test="currency != null" >
         #{currency,jdbcType=VARCHAR},
       </if>
-      <if test="exchangeRate != null">
+      <if test="exchangeRate != null" >
         #{exchangeRate,jdbcType=DECIMAL},
       </if>
-      <if test="taxRate != null">
+      <if test="taxRate != null" >
         #{taxRate,jdbcType=DECIMAL},
       </if>
-      <if test="signTime != null">
+      <if test="signTime != null" >
         #{signTime,jdbcType=DATE},
       </if>
-      <if test="effectiveDate != null">
+      <if test="effectiveDate != null" >
         #{effectiveDate,jdbcType=DATE},
       </if>
-      <if test="startTime != null">
+      <if test="startTime != null" >
         #{startTime,jdbcType=DATE},
       </if>
-      <if test="endTime != null">
+      <if test="endTime != null" >
         #{endTime,jdbcType=DATE},
       </if>
-      <if test="fulfillmentPlace != null">
+      <if test="fulfillmentPlace != null" >
         #{fulfillmentPlace,jdbcType=VARCHAR},
       </if>
-      <if test="contractText != null">
+      <if test="contractText != null" >
         #{contractText,jdbcType=VARCHAR},
       </if>
-      <if test="supplierEvaluation != null">
+      <if test="supplierEvaluation != null" >
         #{supplierEvaluation,jdbcType=VARCHAR},
       </if>
-      <if test="tender != null">
+      <if test="tender != null" >
         #{tender,jdbcType=VARCHAR},
       </if>
-      <if test="blockNumber != null">
+      <if test="blockNumber != null" >
         #{blockNumber,jdbcType=VARCHAR},
       </if>
-      <if test="blockName != null">
+      <if test="blockName != null" >
         #{blockName,jdbcType=VARCHAR},
       </if>
-      <if test="investmentBudget != null">
+      <if test="investmentBudget != null" >
         #{investmentBudget,jdbcType=DECIMAL},
       </if>
-      <if test="note != null">
+      <if test="note != null" >
         #{note,jdbcType=VARCHAR},
       </if>
-      <if test="country != null">
+      <if test="country != null" >
         #{country,jdbcType=VARCHAR},
       </if>
-      <if test="budgetTypes != null">
+      <if test="budgetTypes != null" >
         #{budgetTypes,jdbcType=VARCHAR},
       </if>
-      <if test="evaluationMethod != null">
+      <if test="evaluationMethod != null" >
         #{evaluationMethod,jdbcType=VARCHAR},
       </if>
-      <if test="invitationDate != null">
+      <if test="invitationDate != null" >
         #{invitationDate,jdbcType=DATE},
       </if>
-      <if test="openingDate != null">
+      <if test="openingDate != null" >
         #{openingDate,jdbcType=DATE},
       </if>
-      <if test="biddingDocuments != null">
+      <if test="biddingDocuments != null" >
         #{biddingDocuments,jdbcType=VARCHAR},
       </if>
-      <if test="performanceGuarantee != null">
+      <if test="performanceGuarantee != null" >
         #{performanceGuarantee,jdbcType=VARCHAR},
       </if>
-      <if test="performanceStage != null">
+      <if test="performanceStage != null" >
         #{performanceStage,jdbcType=VARCHAR},
       </if>
-      <if test="instructions != null">
+      <if test="instructions != null" >
         #{instructions,jdbcType=VARCHAR},
       </if>
-      <if test="whetherToChange != null">
+      <if test="whetherToChange != null" >
         #{whetherToChange,jdbcType=VARCHAR},
       </if>
-      <if test="changeOfSubsidiary != null">
+      <if test="changeOfSubsidiary != null" >
         #{changeOfSubsidiary,jdbcType=VARCHAR},
       </if>
-      <if test="supplierName != null">
+      <if test="supplierName != null" >
         #{supplierName,jdbcType=VARCHAR},
       </if>
-      <if test="supplierCode != null">
+      <if test="supplierCode != null" >
         #{supplierCode,jdbcType=VARCHAR},
       </if>
-      <if test="supplierClassify != null">
+      <if test="supplierClassify != null" >
         #{supplierClassify,jdbcType=VARCHAR},
       </if>
-      <if test="isQualifiedSupplier != null">
+      <if test="isQualifiedSupplier != null" >
         #{isQualifiedSupplier,jdbcType=VARCHAR},
       </if>
-      <if test="isinUnitCompany != null">
+      <if test="isinUnitCompany != null" >
         #{isinUnitCompany,jdbcType=VARCHAR},
       </if>
-      <if test="contractStatus != null">
+      <if test="contractStatus != null" >
         #{contractStatus,jdbcType=VARCHAR},
       </if>
-      <if test="createBy != null">
+      <if test="createBy != null" >
         #{createBy,jdbcType=VARCHAR},
       </if>
-      <if test="tenantCode != null">
+      <if test="tenantCode != null" >
         #{tenantCode,jdbcType=VARCHAR},
       </if>
-      <if test="uploadFlag != null">
+      <if test="uploadFlag != null" >
         #{uploadFlag,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null" >
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.entity.PurchaseContract">
+  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.entity.PurchaseContract" >
     update purchase_contract
-    <set>
-      <if test="companyCode != null">
+    <set >
+      <if test="companyCode != null" >
         company_code = #{companyCode,jdbcType=VARCHAR},
       </if>
-      <if test="contractCode != null">
+      <if test="contractCode != null" >
         contract_code = #{contractCode,jdbcType=VARCHAR},
       </if>
-      <if test="contractName != null">
+      <if test="contractName != null" >
         contract_name = #{contractName,jdbcType=VARCHAR},
       </if>
-      <if test="contractSecretLev != null">
+      <if test="contractSecretLev != null" >
         contract_secret_lev = #{contractSecretLev,jdbcType=VARCHAR},
       </if>
-      <if test="purchaserName != null">
+      <if test="purchaserName != null" >
         purchaser_name = #{purchaserName,jdbcType=VARCHAR},
       </if>
-      <if test="purchaserCode != null">
+      <if test="purchaserCode != null" >
         purchaser_code = #{purchaserCode,jdbcType=VARCHAR},
       </if>
-      <if test="contKeepStatus != null">
+      <if test="contKeepStatus != null" >
         cont_keep_status = #{contKeepStatus,jdbcType=VARCHAR},
       </if>
-      <if test="capitalSource != null">
+      <if test="capitalSource != null" >
         capital_source = #{capitalSource,jdbcType=VARCHAR},
       </if>
-      <if test="pricingManner != null">
+      <if test="pricingManner != null" >
         pricing_manner = #{pricingManner,jdbcType=VARCHAR},
       </if>
-      <if test="technicalWeight != null">
+      <if test="technicalWeight != null" >
         technical_weight = #{technicalWeight,jdbcType=VARCHAR},
       </if>
-      <if test="businessWeight != null">
+      <if test="businessWeight != null" >
         business_weight = #{businessWeight,jdbcType=VARCHAR},
       </if>
-      <if test="payWay != null">
+      <if test="payWay != null" >
         pay_way = #{payWay,jdbcType=VARCHAR},
       </if>
-      <if test="purchaseWay != null">
+      <if test="purchaseWay != null" >
         purchase_way = #{purchaseWay,jdbcType=VARCHAR},
       </if>
-      <if test="purchaseOrgForm != null">
+      <if test="purchaseOrgForm != null" >
         purchase_org_form = #{purchaseOrgForm,jdbcType=VARCHAR},
       </if>
-      <if test="frameworkAgreement != null">
+      <if test="frameworkAgreement != null" >
         framework_agreement = #{frameworkAgreement,jdbcType=VARCHAR},
       </if>
-      <if test="procurementPlatform != null">
+      <if test="procurementPlatform != null" >
         procurement_platform = #{procurementPlatform,jdbcType=VARCHAR},
       </if>
-      <if test="contractAmount != null">
+      <if test="contractAmount != null" >
         contract_amount = #{contractAmount,jdbcType=DECIMAL},
       </if>
-      <if test="currency != null">
+      <if test="currency != null" >
         currency = #{currency,jdbcType=VARCHAR},
       </if>
-      <if test="exchangeRate != null">
+      <if test="exchangeRate != null" >
         exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
       </if>
-      <if test="taxRate != null">
+      <if test="taxRate != null" >
         tax_rate = #{taxRate,jdbcType=DECIMAL},
       </if>
-      <if test="signTime != null">
+      <if test="signTime != null" >
         sign_time = #{signTime,jdbcType=DATE},
       </if>
-      <if test="effectiveDate != null">
+      <if test="effectiveDate != null" >
         effective_date = #{effectiveDate,jdbcType=DATE},
       </if>
-      <if test="startTime != null">
+      <if test="startTime != null" >
         start_time = #{startTime,jdbcType=DATE},
       </if>
-      <if test="endTime != null">
+      <if test="endTime != null" >
         end_time = #{endTime,jdbcType=DATE},
       </if>
-      <if test="fulfillmentPlace != null">
+      <if test="fulfillmentPlace != null" >
         fulfillment_place = #{fulfillmentPlace,jdbcType=VARCHAR},
       </if>
-      <if test="contractText != null">
+      <if test="contractText != null" >
         contract_text = #{contractText,jdbcType=VARCHAR},
       </if>
-      <if test="supplierEvaluation != null">
+      <if test="supplierEvaluation != null" >
         supplier_evaluation = #{supplierEvaluation,jdbcType=VARCHAR},
       </if>
-      <if test="tender != null">
+      <if test="tender != null" >
         tender = #{tender,jdbcType=VARCHAR},
       </if>
-      <if test="blockNumber != null">
+      <if test="blockNumber != null" >
         block_number = #{blockNumber,jdbcType=VARCHAR},
       </if>
-      <if test="blockName != null">
+      <if test="blockName != null" >
         block_name = #{blockName,jdbcType=VARCHAR},
       </if>
-      <if test="investmentBudget != null">
+      <if test="investmentBudget != null" >
         investment_budget = #{investmentBudget,jdbcType=DECIMAL},
       </if>
-      <if test="note != null">
+      <if test="note != null" >
         note = #{note,jdbcType=VARCHAR},
       </if>
-      <if test="country != null">
+      <if test="country != null" >
         country = #{country,jdbcType=VARCHAR},
       </if>
-      <if test="budgetTypes != null">
+      <if test="budgetTypes != null" >
         budget_types = #{budgetTypes,jdbcType=VARCHAR},
       </if>
-      <if test="evaluationMethod != null">
+      <if test="evaluationMethod != null" >
         evaluation_method = #{evaluationMethod,jdbcType=VARCHAR},
       </if>
-      <if test="invitationDate != null">
+      <if test="invitationDate != null" >
         invitation_date = #{invitationDate,jdbcType=DATE},
       </if>
-      <if test="openingDate != null">
+      <if test="openingDate != null" >
         opening_date = #{openingDate,jdbcType=DATE},
       </if>
-      <if test="biddingDocuments != null">
+      <if test="biddingDocuments != null" >
         bidding_documents = #{biddingDocuments,jdbcType=VARCHAR},
       </if>
-      <if test="performanceGuarantee != null">
+      <if test="performanceGuarantee != null" >
         performance_guarantee = #{performanceGuarantee,jdbcType=VARCHAR},
       </if>
-      <if test="performanceStage != null">
+      <if test="performanceStage != null" >
         performance_stage = #{performanceStage,jdbcType=VARCHAR},
       </if>
-      <if test="instructions != null">
+      <if test="instructions != null" >
         instructions = #{instructions,jdbcType=VARCHAR},
       </if>
-      <if test="whetherToChange != null">
+      <if test="whetherToChange != null" >
         whether_to_change = #{whetherToChange,jdbcType=VARCHAR},
       </if>
-      <if test="changeOfSubsidiary != null">
+      <if test="changeOfSubsidiary != null" >
         change_of_subsidiary = #{changeOfSubsidiary,jdbcType=VARCHAR},
       </if>
-      <if test="supplierName != null">
+      <if test="supplierName != null" >
         supplier_name = #{supplierName,jdbcType=VARCHAR},
       </if>
-      <if test="supplierCode != null">
+      <if test="supplierCode != null" >
         supplier_code = #{supplierCode,jdbcType=VARCHAR},
       </if>
-      <if test="supplierClassify != null">
+      <if test="supplierClassify != null" >
         supplier_classify = #{supplierClassify,jdbcType=VARCHAR},
       </if>
-      <if test="isQualifiedSupplier != null">
+      <if test="isQualifiedSupplier != null" >
         is_qualified_supplier = #{isQualifiedSupplier,jdbcType=VARCHAR},
       </if>
-      <if test="isinUnitCompany != null">
+      <if test="isinUnitCompany != null" >
         isIn_unit_company = #{isinUnitCompany,jdbcType=VARCHAR},
       </if>
-      <if test="contractStatus != null">
+      <if test="contractStatus != null" >
         contract_status = #{contractStatus,jdbcType=VARCHAR},
       </if>
-      <if test="createBy != null">
+      <if test="createBy != null" >
         create_by = #{createBy,jdbcType=VARCHAR},
       </if>
-      <if test="tenantCode != null">
+      <if test="tenantCode != null" >
         tenant_code = #{tenantCode,jdbcType=VARCHAR},
       </if>
-      <if test="uploadFlag != null">
+      <if test="uploadFlag != null" >
         upload_flag = #{uploadFlag,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null" >
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where contractid = #{contractid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.springmvc.entity.PurchaseContract">
+  <update id="updateByPrimaryKey" parameterType="com.springmvc.entity.PurchaseContract" >
     update purchase_contract
     set company_code = #{companyCode,jdbcType=VARCHAR},
       contract_code = #{contractCode,jdbcType=VARCHAR},
@@ -658,8 +693,9 @@
       contract_status = #{contractStatus,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},
       tenant_code = #{tenantCode,jdbcType=VARCHAR},
-      upload_flag = #{uploadFlag,jdbcType=INTEGER}
+      upload_flag = #{uploadFlag,jdbcType=INTEGER},
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP}
     where contractid = #{contractid,jdbcType=INTEGER}
   </update>
-
 </mapper>

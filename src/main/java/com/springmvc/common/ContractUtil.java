@@ -231,6 +231,13 @@ public class ContractUtil {
                 cght.setCreateBy(userCode);
                 cght.setTenantCode(userInfo.getUserTenantCode());
             }
+            else {
+                logger.error("解析上传Excel文件对应上传人代码信息失败，userCode："+userCode);
+            }
+        }
+        else
+        {
+            logger.error("解析上传Excel文件对应上传人列信息失败，请检查是否设置");
         }
 //        cght.setCompanyCode("01-0126-01-0126-C3940");//
 //        cght.setCreateBy("CETCBW");
@@ -328,6 +335,7 @@ public class ContractUtil {
         sellContract.setUploadFlag(0);
 
         //区分合同类型，进行处理
+        String userCode=null;
         if(contractType.equals(ContractEnum.JPHT.type))
         {
                 sellContract.setArmyClass2((String)getCellValueByCell(cRow.getCell(19)));
@@ -337,17 +345,7 @@ public class ContractUtil {
                 sellContract.setProfessionalField((String)getCellValueByCell(cRow.getCell(23)));
                 sellContract.setIsGreatNewCont((String)getCellValueByCell(cRow.getCell(24)));
                 sellContract.setIsGreatProject((String)getCellValueByCell(cRow.getCell(25)));
-            String userCode=(String)getCellValueByCell(cRow.getCell(26));
-            if(StringUtils.isNotEmpty(userCode))
-            {
-                ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
-                if(userInfo!=null)
-                {
-                    sellContract.setCompanyCode(userInfo.getUserCompanyCode());
-                    sellContract.setCreateBy(userCode);
-                    sellContract.setTenantCode(userInfo.getUserTenantCode());
-                }
-            }
+                userCode=(String)getCellValueByCell(cRow.getCell(26));
         }
         else if(contractType.equals(ContractEnum.GJHCJ.type)||contractType.equals(ContractEnum.GJHSX.type))
         {
@@ -357,17 +355,7 @@ public class ContractUtil {
                 sellContract.setClassifyTwo((String)getCellValueByCell(cRow.getCell(22)));
                 sellContract.setClassifyThree((String)getCellValueByCell(cRow.getCell(23)));
                 sellContract.setNationality((String)getCellValueByCell(cRow.getCell(24)));
-            String userCode=(String)getCellValueByCell(cRow.getCell(25));
-            if(StringUtils.isNotEmpty(userCode))
-            {
-                ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
-                if(userInfo!=null)
-                {
-                    sellContract.setCompanyCode(userInfo.getUserCompanyCode());
-                    sellContract.setCreateBy(userCode);
-                    sellContract.setTenantCode(userInfo.getUserTenantCode());
-                }
-            }
+                userCode=(String)getCellValueByCell(cRow.getCell(25));
         }
         else if(contractType.equals(ContractEnum.KJCX.type))
         {
@@ -375,32 +363,33 @@ public class ContractUtil {
                 sellContract.setSciTechClassify((String)getCellValueByCell(cRow.getCell(20)));
                 sellContract.setTechnicalB((String)getCellValueByCell(cRow.getCell(21)));
                 sellContract.setTechnicalB2((String)getCellValueByCell(cRow.getCell(22)));
-            String userCode=(String)getCellValueByCell(cRow.getCell(23));
-            if(StringUtils.isNotEmpty(userCode))
-            {
-                ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
-                if(userInfo!=null)
-                {
-                    sellContract.setCompanyCode(userInfo.getUserCompanyCode());
-                    sellContract.setCreateBy(userCode);
-                    sellContract.setTenantCode(userInfo.getUserTenantCode());
-                }
-            }
+                userCode=(String)getCellValueByCell(cRow.getCell(23));
         }
         else if(contractType.equals(ContractEnum.MPHT.type))
         {
-                sellContract.setIndustryClassify((String)getCellValueByCell(cRow.getCell(19)));
-            String userCode=(String)getCellValueByCell(cRow.getCell(20));
-            if(StringUtils.isNotEmpty(userCode))
+            sellContract.setIndustryClassify((String)getCellValueByCell(cRow.getCell(19)));
+            userCode=(String)getCellValueByCell(cRow.getCell(20));
+        }
+        else
+        {
+            userCode=(String)getCellValueByCell(cRow.getCell(19));
+        }
+        if(StringUtils.isNotEmpty(userCode))
+        {
+            ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
+            if(userInfo!=null)
             {
-                ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
-                if(userInfo!=null)
-                {
-                    sellContract.setCompanyCode(userInfo.getUserCompanyCode());
-                    sellContract.setCreateBy(userCode);
-                    sellContract.setTenantCode(userInfo.getUserTenantCode());
-                }
+                sellContract.setCompanyCode(userInfo.getUserCompanyCode());
+                sellContract.setCreateBy(userCode);
+                sellContract.setTenantCode(userInfo.getUserTenantCode());
             }
+            else {
+                logger.error("解析上传Excel文件对应上传人代码信息失败，userCode："+userCode);
+            }
+        }
+        else
+        {
+            logger.error("解析Excel上传文件上传人列失败....");
         }
         return handleTranslateContract(sellContract);
     }

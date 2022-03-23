@@ -1,7 +1,7 @@
 package com.springmvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springmvc.common.Singleton;
+import com.springmvc.common.DicUtil;
 import com.springmvc.dao.PurchaseContractMapper;
 import com.springmvc.entity.PurchaseContract;
 import net.sf.json.JSONObject;
@@ -34,15 +34,10 @@ public class PurchaseContractController {
     @RequestMapping("/uploadPurchaseContract")
     public ModelAndView uploadPurchaseContract(){
         ModelAndView modelAndView=new ModelAndView();
-        System.out.println("hello,purchaseFile and singleton"+ Singleton.getInstance().uploadURL);
+//        System.out.println("hello,purchaseFile and singleton"+ Singleton.getInstance().uploadURL);
         return modelAndView;
     }
-    @RequestMapping("/importContract")
-    public ModelAndView importContract(){
-        ModelAndView modelAndView=new ModelAndView();
-//        System.out.println("hello,purchaseFile");
-        return modelAndView;
-    }
+
     @RequestMapping("/uploadContract")
     public ModelAndView uploadContract(){
         ModelAndView modelAndView=new ModelAndView();
@@ -115,7 +110,7 @@ public class PurchaseContractController {
     public String getToken(){
         //创建get请求
         HttpClient client = new HttpClient();
-        GetMethod method = new GetMethod(Singleton.getInstance().uploadURL+"/LesCont/token/getToken?key=20dd1883e16c4a1bb4e248a278bdeead");
+        GetMethod method = new GetMethod(DicUtil.getProperty("url") +"/LesCont/token/getToken?key="+DicUtil.getProperty("key"));
         JSONObject jsonResult = null;
         String token = null;
         try{
@@ -144,7 +139,7 @@ public class PurchaseContractController {
         //创建POST请求
         int responseCode = 0;
         HttpClient client = new HttpClient();
-        PostMethod method = new PostMethod(Singleton.getInstance().uploadURL+"/LesCont/api/paycont/insert");
+        PostMethod method = new PostMethod(DicUtil.getProperty("url")+"/LesCont/api/paycont/insert");
 //        PostMethod method = new PostMethod("http://192.168.66.116:8054/LesCont/api/paycont/insertList");
         //设置请求头
         method.setRequestHeader("ContentType","application/json");
