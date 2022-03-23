@@ -1,5 +1,6 @@
 package com.springmvc.common;
 
+import com.springmvc.entity.ContractUser;
 import com.springmvc.entity.PurchaseContract;
 import com.springmvc.entity.SellContract;
 import org.apache.commons.lang.StringUtils;
@@ -51,7 +52,7 @@ public class ContractUtil {
             for(int i=startIndex;i<lastIndex;i++){
                 XSSFRow curRow=xs.getRow(i);
                 if(curRow==null||ContractUtil.getCellValueByCell(curRow.getCell(0))==null){
-                    logger.info("the last hanld Row num is:"+(i-1));
+                    logger.info("the last handle Row num is:"+(i-1));
                     break;//
                 }
                 SellContract finalContract = getSingleSellContract(curRow, contractType);
@@ -220,9 +221,20 @@ public class ContractUtil {
         cght.setChangeOfSubsidiary(changeOfSubsidiary);
         cght.setProcurementPlatform(procurementPlatform);
         //个性化设置
-        cght.setCompanyCode("01-0126-01-0126-C3940");//
-        cght.setCreateBy("CETCBW");
-        cght.setTenantCode("BWGS");
+        String userCode=(String)getCellValueByCell(curRow.getCell(46));
+        if(StringUtils.isNotEmpty(userCode))
+        {
+            ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
+            if(userInfo!=null)
+            {
+                cght.setCompanyCode(userInfo.getUserCompanyCode());
+                cght.setCreateBy(userCode);
+                cght.setTenantCode(userInfo.getUserTenantCode());
+            }
+        }
+//        cght.setCompanyCode("01-0126-01-0126-C3940");//
+//        cght.setCreateBy("CETCBW");
+//        cght.setTenantCode("BWGS");
         cght.setUploadFlag(0);
         return handleTranslateContract(cght);
     }
@@ -325,6 +337,17 @@ public class ContractUtil {
                 sellContract.setProfessionalField((String)getCellValueByCell(cRow.getCell(23)));
                 sellContract.setIsGreatNewCont((String)getCellValueByCell(cRow.getCell(24)));
                 sellContract.setIsGreatProject((String)getCellValueByCell(cRow.getCell(25)));
+            String userCode=(String)getCellValueByCell(cRow.getCell(26));
+            if(StringUtils.isNotEmpty(userCode))
+            {
+                ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
+                if(userInfo!=null)
+                {
+                    sellContract.setCompanyCode(userInfo.getUserCompanyCode());
+                    sellContract.setCreateBy(userCode);
+                    sellContract.setTenantCode(userInfo.getUserTenantCode());
+                }
+            }
         }
         else if(contractType.equals(ContractEnum.GJHCJ.type)||contractType.equals(ContractEnum.GJHSX.type))
         {
@@ -334,6 +357,17 @@ public class ContractUtil {
                 sellContract.setClassifyTwo((String)getCellValueByCell(cRow.getCell(22)));
                 sellContract.setClassifyThree((String)getCellValueByCell(cRow.getCell(23)));
                 sellContract.setNationality((String)getCellValueByCell(cRow.getCell(24)));
+            String userCode=(String)getCellValueByCell(cRow.getCell(25));
+            if(StringUtils.isNotEmpty(userCode))
+            {
+                ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
+                if(userInfo!=null)
+                {
+                    sellContract.setCompanyCode(userInfo.getUserCompanyCode());
+                    sellContract.setCreateBy(userCode);
+                    sellContract.setTenantCode(userInfo.getUserTenantCode());
+                }
+            }
         }
         else if(contractType.equals(ContractEnum.KJCX.type))
         {
@@ -341,10 +375,32 @@ public class ContractUtil {
                 sellContract.setSciTechClassify((String)getCellValueByCell(cRow.getCell(20)));
                 sellContract.setTechnicalB((String)getCellValueByCell(cRow.getCell(21)));
                 sellContract.setTechnicalB2((String)getCellValueByCell(cRow.getCell(22)));
+            String userCode=(String)getCellValueByCell(cRow.getCell(23));
+            if(StringUtils.isNotEmpty(userCode))
+            {
+                ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
+                if(userInfo!=null)
+                {
+                    sellContract.setCompanyCode(userInfo.getUserCompanyCode());
+                    sellContract.setCreateBy(userCode);
+                    sellContract.setTenantCode(userInfo.getUserTenantCode());
+                }
+            }
         }
         else if(contractType.equals(ContractEnum.MPHT.type))
         {
                 sellContract.setIndustryClassify((String)getCellValueByCell(cRow.getCell(19)));
+            String userCode=(String)getCellValueByCell(cRow.getCell(20));
+            if(StringUtils.isNotEmpty(userCode))
+            {
+                ContractUser userInfo = DicUtil.getUserInfoByCode(userCode);
+                if(userInfo!=null)
+                {
+                    sellContract.setCompanyCode(userInfo.getUserCompanyCode());
+                    sellContract.setCreateBy(userCode);
+                    sellContract.setTenantCode(userInfo.getUserTenantCode());
+                }
+            }
         }
         return handleTranslateContract(sellContract);
     }
