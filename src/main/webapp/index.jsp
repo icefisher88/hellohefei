@@ -8,7 +8,9 @@
 <div class="page-header" style="background-color: white;">
     <h1>合同上报系统</h1>
 </div>
-<button class="btn btn-info" id="gritter-sticky2" onclick="window.location.href='./importContract'">导入合同数据</button>
-<button class="btn btn-info" id="gritter-sticky1" onclick="window.location.href='./uploadContract'">推送合同数据</button>
+<button class="btn btn-primary" id="gritter-sticky2" onclick="window.location.href='./importContract'">
+    <span class="glyphicon glyphicon-import"></span>导入合同数据</button>
+<button class="btn btn-primary" id="gritter-sticky1" onclick="window.location.href='./uploadContract'">
+    <span class="glyphicon glyphicon-send"></span> 推送合同数据</button>
 </body>
 </html>
