@@ -26,6 +26,8 @@ public class messageController {
 
     @RequestMapping("/main")
     public String goMain(){return "main";}
+    @RequestMapping("/main2")
+    public String goMain2(){return "main2";}
 
     @RequestMapping("/message/downloadFile")
     public ResponseEntity export(@RequestParam("fileName") String fileName, HttpServletResponse response) throws IOException {

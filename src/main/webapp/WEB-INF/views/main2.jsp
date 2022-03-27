@@ -35,7 +35,8 @@
 <script>
     $().ready(
         function() {
-            $('#myManage1').attr("class", "active");
+            $('#myManage2').attr("class", "active");
+            // $('.nav-list>li').eq(0)
         }
     )
 </script>
