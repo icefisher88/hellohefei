@@ -24,6 +24,9 @@ public class messageController {
         return "download";
     }
 
+    @RequestMapping("/main")
+    public String goMain(){return "main";}
+
     @RequestMapping("/message/downloadFile")
     public ResponseEntity export(@RequestParam("fileName") String fileName, HttpServletResponse response) throws IOException {
         HttpHeaders headers = new HttpHeaders();
