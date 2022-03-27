@@ -14,8 +14,8 @@
                 <li style="font-size: 14px;font-weight: bolder">
                     <a href="#">  <i class="menu-icon fa fa-caret-right"></i><span><i class="menu-icon fa fa-dollar"></i> 我管理的部门</span></a>
                 </li>
-                <li style="font-size: 14px;font-weight: bolder">
-                    <a href="#">  <i class="menu-icon fa fa-caret-right"></i><span> 我管理的项目</span></a>
+                <li id="myManage"  style="font-size: 14px;font-weight: bolder">
+                    <a href="#" >  <i class="menu-icon fa fa-caret-right"></i><span> 我管理的项目</span></a>
                 </li>
                 <li style="font-size: 14px;font-weight: bolder">
                     <a href="#">  <i class="menu-icon fa fa-caret-right"></i><span> 我参与的项目</span></a>
@@ -29,5 +29,11 @@
             <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
         </div>
     </div>
-
+<script>
+  $().ready(
+      function() {
+          $('#myManage').attr("class", "active");
+      }
+  )
+</script>
 </div>
