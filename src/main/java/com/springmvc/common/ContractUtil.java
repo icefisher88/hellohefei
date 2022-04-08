@@ -150,17 +150,17 @@ public class ContractUtil {
             invitationDate=curRow.getCell(33).getDateCellValue();
         }
         Date openingDate=null;//开标日期
-        if((String)getCellValueByCell(curRow.getCell(34))!=null)
+        if(getCellValueByCell(curRow.getCell(34))!=null)
         {
             openingDate=curRow.getCell(34).getDateCellValue();
         }
         Date startTime=new Date();//开始时间
-        if((String)getCellValueByCell(curRow.getCell(35))!=null)
+        if(getCellValueByCell(curRow.getCell(35))!=null)
         {
             startTime=curRow.getCell(35).getDateCellValue();
         }
         Date endTime=new Date();//结束时间
-        if((String)getCellValueByCell(curRow.getCell(36))!=null)
+        if(getCellValueByCell(curRow.getCell(36))!=null)
         {
             endTime=curRow.getCell(36).getDateCellValue();
         }
