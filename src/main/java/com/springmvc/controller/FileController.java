@@ -61,7 +61,7 @@ public class FileController {
         List<Uploadfile> files=mapper.getAllUploadFiles();
         Map<String,Object> map2Json=new HashMap<String,Object>();
         map2Json.put("aaData",files);
-        System.out.println("hello");
+        System.out.println("hello");//测试
         return map2Json;
     }
 
